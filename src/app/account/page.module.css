@@ -1,0 +1,7 @@
+.main {
+    position: absolute;
+    margin: auto auto 120px auto;
+    left: 50%;
+    transform: translate(-50%);
+    height: 110%;
+}

@@ -1,0 +1,17 @@
+.main{
+}
+
+.tab {
+    position: absolute;
+    margin: 0 auto 1rem auto;
+    left: 50%;
+    transform: translate(-50%);
+    width: 100vw;
+}
+
+.body {
+    position: absolute;
+    margin: 3rem auto 5rem auto;
+    left: 50%;
+    transform: translate(-50%);
+}
