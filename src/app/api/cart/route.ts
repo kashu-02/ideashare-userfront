@@ -1,6 +1,6 @@
 import {withApiAuthRequired, getSession, getAccessToken } from '@auth0/nextjs-auth0';
 import {NextResponse} from "next/server";
-
+export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
 export const GET = withApiAuthRequired(async function myApiRoute(req) {
     const res = new NextResponse();
