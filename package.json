@@ -26,6 +26,7 @@
     "react-material-ui-carousel": "^3.4.2"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.9.0",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "@types/react": "^18",
