@@ -5,7 +5,6 @@ import Header from './_components/header'
 import Issue from './_components/issue'
 import styles from './page.module.css'
 
-export const runtime = 'edge';
 export default async function Home() {
     const issues = await getIssues()
     return (
