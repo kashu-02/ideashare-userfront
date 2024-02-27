@@ -1,6 +1,7 @@
-import {handleAuth, handleCallback, handleLogin, Session, getAccessToken} from '@auth0/nextjs-auth0';
+import {handleAuth, handleCallback, handleLogin, Session, getAccessToken} from '@auth0/nextjs-auth0/edge';
 import {NextRequest, NextResponse} from "next/server";
 
+export const runtime = 'edge';
 const afterCallback = async (req : NextRequest, session : Session) => {
     // const accessToken = session.accessToken
     // const res = await fetch(`${process.env.API_URL}/account`, {
