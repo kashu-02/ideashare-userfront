@@ -6,6 +6,7 @@ import {Inter} from 'next/font/google'
 import './globals.css'
 
 import BottomNavigationMenu from './_components/bottomNavigationMenu'
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 const inter = Inter({subsets: ['latin']})
 
@@ -72,6 +73,7 @@ export default function RootLayout({
             <meta name="theme-color" content="#FADF0A"/>
             <title>IdeaShare</title>
         </head>
+        <UserProvider>
         <body className={inter.className}>
         <AppRouterCacheProvider options={{enableCssLayer: true}}>
             <ThemeProvider theme={theme}>
@@ -81,6 +83,7 @@ export default function RootLayout({
             </ThemeProvider>
         </AppRouterCacheProvider>
         </body>
+        </UserProvider>
         </html>
     )
 }

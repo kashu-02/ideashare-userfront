@@ -1,6 +1,7 @@
 .main {
-    position: absolute;
-    margin: auto auto 120px auto;
+    position: relative;
+    margin: auto auto auto auto;
+    padding-bottom: 10vh;
     left: 50%;
     transform: translate(-50%);
     height: 110%;

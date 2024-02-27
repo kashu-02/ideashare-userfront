@@ -2,9 +2,9 @@
 <project version="4">
   <component name="PortForwardingSettings">
     <ports>
-      <entry key="3000">
+      <entry key="3001">
         <ForwardedPortInfo>
-          <option name="hostPort" value="3000" />
+          <option name="hostPort" value="3001" />
           <option name="readOnly" value="false" />
         </ForwardedPortInfo>
       </entry>

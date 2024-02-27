@@ -1,4 +1,3 @@
-'use client'
 import Image from 'next/image'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -6,13 +5,27 @@ import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
 import Rating from '@mui/material/Rating';
-import {useRouter} from 'next/navigation'
+import NextLink from 'next/link'
 
 import Check from '../_icons/check.svg';
 import {CardActionArea} from "@mui/material";
 
-export default (props : { catalogName: string }) => {
-    const router = useRouter()
+interface Props {
+    product: {
+        id: string;
+        catalogId: string;
+        companyId: string;
+        name: string;
+        description?: string;
+        rating: number;
+        price: number;
+        images: {
+            id: string;
+            imageUrl: string;
+        }[]
+    }
+}
+export default (props : Props) => {
 
     return (
         <Card
@@ -22,9 +35,8 @@ export default (props : { catalogName: string }) => {
             }}
             variant="outlined"
         >
-            <CardActionArea
-                onClick={() => router.push(`/catalogs/${props.catalogName}/bbbb`)}
-            >
+            <CardActionArea>
+                <NextLink href={`/catalogs/${props.product.catalogId}/${props.product.id}`} legacyBehavior>
                 <CardContent
                     sx={{
                         display: "flex",
@@ -49,7 +61,7 @@ export default (props : { catalogName: string }) => {
                         <Typography
                             variant={"h5"}
                         >
-                            商品名
+                            {props.product.name}
                         </Typography>
                         <Box
                             display={"flex"}
@@ -69,7 +81,7 @@ export default (props : { catalogName: string }) => {
                                 sx={{
                                     color: 'secondary.main',
                                 }}
-                                value={3.5}
+                                value={props.product.rating}
                                 readOnly
                             />
                         </Box>
@@ -93,6 +105,7 @@ export default (props : { catalogName: string }) => {
                         </Box>
                     </Box>
                 </CardContent>
+                </NextLink>
             </CardActionArea>
         </Card>
     )

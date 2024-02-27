@@ -1,13 +1,12 @@
 'use client'
 
 import Image from 'next/image';
-import Box from '@mui/material/Box';
 import Carousel from 'react-material-ui-carousel';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import Typography from "@mui/material/Typography";
 
-export default (props) => {
+interface Props{
+    images: string[]
+}
+export default (props: Props) => {
     const items = [
         {
             name: "Random Name #1",
@@ -21,11 +20,11 @@ export default (props) => {
         }
         ]
 
-    const Item = (props: {item: {name: string, description: string, url: string}}) => {
+    const Item = (props: {url: string}) => {
         return (
             <Image
-                src={props.item.url}
-                alt={"aa"}
+                alt={""}
+                src={props.url}
                 width={200}
                 height={100}
                 sizes="100vw"
@@ -38,11 +37,11 @@ export default (props) => {
     }
     return (
         <Carousel
-            autoPlay={false}
-
+            autoPlay={true}
         >
             {
-                items.map( (item, i) => <Item key={i} item={item} /> )
+                // props.images.map( (url, i) => <Item key={i} url={url} /> )
+                items.map( (item, i) => <Item key={i} url={item.url} /> )
             }
         </Carousel>
     )

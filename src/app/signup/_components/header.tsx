@@ -20,7 +20,7 @@ export default () => (
                     <Typography
                     variant={"h6"}
                     >
-                        購入手続き
+                        ユーザー登録
                     </Typography>
                 </Toolbar>
             </AppBar>

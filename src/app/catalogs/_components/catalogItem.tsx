@@ -11,8 +11,16 @@ import SvgIcon from "@mui/material/SvgIcon";
 import DetailIcon from '../_icons/detail.svg'
 import CatalogIcon from '../../_icons/bottom/searchIcon.svg'
 
-export default () => {
-
+interface CatalogData{
+    id: string;
+    name: string;
+    price: number;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt?: string;
+}
+export default (props: {catalog: CatalogData}) => {
+    const catalog = props.catalog;
     return (
         <Card
             sx={{
@@ -24,7 +32,7 @@ export default () => {
                 boxShadow: 'none',
             }}
         >
-            <NextLink href={'/catalogs/aaaa'} legacyBehavior>
+            <NextLink href={`/catalogs/${catalog.id}`} legacyBehavior>
                 <CardActionArea>
                     <CardMedia
                         sx={{
@@ -78,7 +86,7 @@ export default () => {
                                     <Typography
                                         variant={"h4"}
                                     >
-                                        1000円
+                                        　{catalog.name}
                                     </Typography>
                                     <Typography
                                         variant={"subtitle1"}

@@ -4,6 +4,16 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
+interface Props {
+    issue: {
+        id: number;
+        companyId: string;
+        rewards: number;
+        title: string;
+        imageUrl: string;
+        content: string;
+    }
+}
 export default () => (
     <Card
         elevation={0}

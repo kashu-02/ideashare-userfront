@@ -6,7 +6,9 @@ import Header from '../_components/header'
 import ProductItem from './_components/productItem'
 import styles from './page.module.css'
 
-export default function CatalogSelect({params}: { params: { catalogName: string } }) {
+export default async function CatalogSelect({params}: { params: { catalogId: string } }) {
+    const products = await getData(params.catalogId)
+
     return (
         <main className={styles.main}>
             <Header/>
@@ -38,17 +40,28 @@ export default function CatalogSelect({params}: { params: { catalogName: string 
                         </Typography>
                     </Box>
                 </Grid>
-                {Array.from(Array(6)).map((_, index) => (
+                {products.map((product, index) => (
                     <Grid xs={12} sm={12} md={12} key={index}
                           display="flex"
                           justifyContent="center"
                           alignItems="center">
                         <ProductItem
-                            catalogName={params.catalogName}
+                            product={product}
                         />
                     </Grid>
                 ))}
             </Grid>
         </main>
     )
+}
+
+
+async function getData(catalogId) {
+    console.log(catalogId)
+    const res = await fetch(`${process.env.API_URL}/catalogs/${catalogId}/products`)
+    if(!res.ok){
+        throw new Error('データの取得に失敗しました')
+    }
+
+    return res.json()
 }

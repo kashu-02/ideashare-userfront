@@ -2,7 +2,13 @@ import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography";
 
-export default (props) => {
+interface Props{
+    data: {
+        imageUrl : string;
+        companyName: string;
+    }
+}
+export default (props : Props) => {
 
     return (
         <Box
@@ -10,7 +16,7 @@ export default (props) => {
             alignItems={"center"}
         >
             <Image
-                src={"https://placehold.jp/100x100.png"}
+                src={props.data.imageUrl}
                 alt={"Item"}
                 width={50}
                 height={50}
@@ -25,7 +31,7 @@ export default (props) => {
                     marginLeft: '1rem',
                 }}
             >
-                会社名
+                {props.data.companyName}
             </Typography>
         </Box>
     )

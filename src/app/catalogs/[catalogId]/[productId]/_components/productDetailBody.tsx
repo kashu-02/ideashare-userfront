@@ -5,7 +5,21 @@ import Rating from '@mui/material/Rating';
 
 import Check from '../../_icons/check.svg';
 
-export default (props) => {
+interface Props{
+    data: {
+        id: string;
+        catalogId: string;
+        companyId: string;
+        name: string;
+        description: string;
+        rating: number;
+        price: number;
+        Catalog: {
+            name: string
+        }
+    }
+}
+export default (props: Props) => {
 
     return (
         <Box
@@ -22,7 +36,7 @@ export default (props) => {
                     marginY: '0.5rem',
                 }}
             >
-                商品名
+                {props.data.name}
             </Typography>
             <Box
                 display={"flex"}
@@ -45,7 +59,7 @@ export default (props) => {
                     sx={{
                         color: 'secondary.main',
                     }}
-                    value={3.5}
+                    value={props.data.rating}
                     readOnly
                 />
             </Box>
@@ -63,7 +77,7 @@ export default (props) => {
                     color={'secondary.main'}
                     sx={{}}
                 >
-                    3000円
+                    {props.data.Catalog.name}
                 </Typography>
                 <Typography
                     variant={"h6"}
@@ -99,16 +113,7 @@ export default (props) => {
                     marginY: '0.5rem',
                 }}
                 >
-                ここに商品説明が入る。
-                ここに商品説明が入る。
-                ここに商品説明が入る。
-                ここに商品説明が入る。
-                ここに商品説明が入る。
-                ここに商品説明が入る。
-                ここに商品説明が入る。
-                ここに商品説明が入る。
-                ここに商品説明が入る。
-                ここに商品説明が入る。
+                {props.data.description}
             </Typography>
         </Box>
     )

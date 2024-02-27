@@ -1,0 +1,11 @@
+/*.main {*/
+/*    margin: 0 0 20vh 0;*/
+/*}*/
+
+.body {
+    position: absolute;
+    margin: 1rem auto 0 auto;
+    padding-bottom: 10rem;
+    left: 50%;
+    transform: translate(-50%);
+}

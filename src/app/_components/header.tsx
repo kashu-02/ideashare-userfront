@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import SvgIcon from "@mui/material/SvgIcon";
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 import NotificationIcon from '../_icons/notification.svg';
 import TodoCheckIcon from '../_icons/todoCheck.svg';
@@ -61,7 +62,7 @@ export default () => {
         },
     }));
 
-    const [isLoggedin, setLoggedin] = React.useState(true)
+    const { user, error, isLoading } = useUser();
 
     return (
         // <Box sx={{ flexGrow: 1 }}>
@@ -82,7 +83,7 @@ export default () => {
                 </Search>
                 <Box sx={{flexGrow: 1}}/>
                 {
-                    isLoggedin ?
+                    user ?
                         <>
                             <IconButton
                                 sx={{
@@ -108,6 +109,7 @@ export default () => {
                             <Button
                                 color="primary"
                                 variant="outlined"
+                                href={'/api/auth/login'}
                                 sx={{
                                     backgroundColor: "#FFFFFF",
                                     marginX: "0.5rem",
@@ -118,7 +120,7 @@ export default () => {
                             <Button
                                 color="primary"
                                 variant="contained"
-
+                                href={'/api/auth/login'}
                                 sx={{
                                     marginX: "0.5rem"
                                 }}
