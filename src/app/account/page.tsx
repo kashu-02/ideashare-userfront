@@ -12,7 +12,7 @@ import styles from './page.module.css'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import {useEffect, useState} from "react";
 
-export default withPageAuthRequired(function Account() {
+export default withPageAuthRequired(function CheckoutPage() {
     const [user, setUser] = useState();
 
     useEffect(() => {
@@ -25,8 +25,8 @@ export default withPageAuthRequired(function Account() {
     return (
         <main className={styles.main}>
             <Header/>
-            <AccountHeader/>
-            <AccountBody/>
+            <AccountHeader data={user}/>
+            <AccountBody data={user}/>
             <AccountBottom/>
         </main>
     )

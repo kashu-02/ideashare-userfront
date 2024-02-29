@@ -22,6 +22,7 @@ import Divider from "@mui/material/Divider";
 
 import TicketGetDialog from "./ticketGetDialog";
 import {useState} from "react";
+import {set} from "zod";
 
 const GetTicketButton = styled(Button)<ButtonProps>(({theme}) => ({
     minWidth: 0,
@@ -38,11 +39,20 @@ const GetTicketButton = styled(Button)<ButtonProps>(({theme}) => ({
     },
 }));
 
-
-export default (props: { catalogName: string }) => {
+interface Props{
+    data:{
+        ticket: number;
+        point: number;
+    }
+}
+export default (props: Props) => {
     const router = useRouter()
     const [ticketDialogState, setTicketDialogState] = React.useState(false)
-
+    const dialogOpenClick = () =>{
+        setTicketDialogState(true)
+        setTimeout(()=>{setTicketDialogState(false)},3000)
+    }
+    const dialogClose = () => {setTicketDialogState(false)}
 
     return (
         <Box
@@ -89,7 +99,7 @@ export default (props: { catalogName: string }) => {
                         <Typography
                             color={'secondary.main'}
                         >
-                            ×6
+                            {`x${String(props.data?.ticket)}`}
                         </Typography>
                     </Box>
                 </Box>
@@ -120,7 +130,7 @@ export default (props: { catalogName: string }) => {
                     padding={'1rem'}
                 >
                     <Grid container rowSpacing={2} columnSpacing={4} columns={10}>
-                        {Array.from(Array(7)).map((_, index) =>
+                        {Array.from(Array(Number(props.data?.point) || 0)).map((_, index) =>
                             <Grid xs={2} key={index}>
                                 <Image
                                     src={PointIcon}
@@ -135,7 +145,7 @@ export default (props: { catalogName: string }) => {
                                 />
                             </Grid>
                         )}
-                        {Array.from(Array(3)).map((_, index) =>
+                        {Array.from(Array(10 - Number(props.data?.point) || 0)).map((_, index) =>
                             <Grid xs={2} key={index}>
                                 <Image
                                     src={PointGrayIcon}
@@ -153,10 +163,10 @@ export default (props: { catalogName: string }) => {
                     </Grid>
                 </Box>
                 <GetTicketButton
-                    onClick={() => setTicketDialogState(true)}
+                    onClick={dialogOpenClick}
                 >
                     1000円チケットをGETしよう！
-                    <TicketGetDialog open={ticketDialogState} onClose={() => setTicketDialogState(false)}/>
+                    <TicketGetDialog open={ticketDialogState} onClose={dialogClose}/>
                 </GetTicketButton>
                 <Typography
                     variant={'caption'}
@@ -167,7 +177,7 @@ export default (props: { catalogName: string }) => {
                         marginBottom: '3rem'
                     }}
                 >
-                    チケットゲットまであと3000円分のレビュー！
+                    {`チケットゲットまであと${1000 - (Number(props.data?.point || 0)) * 100}円分のレビュー！`}
                 </Typography>
             </Box>
             <Divider

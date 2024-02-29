@@ -9,6 +9,9 @@ const withPWA = require('next-pwa')({
 
 
 const nextConfig = withPWA({
+    experimental: {
+                esmExternals: 'loose',
+        },
     reactStrictMode: true,
     webpack(config) {
         // Grab the existing rule that handles SVG imports

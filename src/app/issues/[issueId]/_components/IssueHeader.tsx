@@ -3,8 +3,19 @@ import Typography from "@mui/material/Typography";
 import SvgIcon from "@mui/material/SvgIcon";
 
 import Light from '@/app/_icons/light.svg'
+import dayjs from "dayjs";
 
-export default () => {
+interface Props{
+    data:{
+       shortTitle: string;
+       Company:{
+           name: string;
+       };
+       rewards: number;
+       deadline: number;
+    }
+}
+export default (props: Props) => {
     return (
         <>
         <Box
@@ -31,19 +42,19 @@ export default () => {
                 <Typography
                     color={'primary.main'}
                 >
-                    商品名募集
+                    {props.data.shortTitle}
                 </Typography>
                 <Typography
                     variant={'caption'}
                     color={'primary.main'}
                 >
-                    会社名
+                    {props.data.Company.name}
                 </Typography>
             </Box>
             <Typography
                 color={'primary.main'}
             >
-                報酬
+                {`${props.data.rewards}pt`}
             </Typography>
         </Box>
         <Box
@@ -65,7 +76,7 @@ export default () => {
                     color={'#FFFFFF'}
                     variant={'caption'}
                 >
-                    O月O日まで！
+                    {`${dayjs(props.data.deadline).format("MM月DD日")}まで！`}
                 </Typography>
             </Box>
 

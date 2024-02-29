@@ -8,28 +8,19 @@ import IssueHeader from './_components/IssueHeader'
 import IssueDescription from "./_components/IssuDescription";
 import IssueQuestion from "./_components/IssueQuestion";
 
-export default async function IssueDetail({params}: { params: { catalogId: string } }) {
-    // const products = await getData(params.catalogId)
+export default async function IssueDetail({params}: { params: { issueId: string } }) {
+    const issueResponse = await fetch(`${process.env.API_URL}/problems/${params.issueId}`)
+    const issue = await issueResponse.json()
+    console.log(issue)
 
     return (
         <main className={styles.main}>
             <Header/>
             <div className={styles.body}>
-                <IssueHeader />
-                <IssueDescription />
-                <IssueQuestion />
+                <IssueHeader data={issue}/>
+                <IssueDescription data={issue}/>
+                <IssueQuestion data={issue}/>
             </div>
         </main>
     )
-}
-
-
-async function getData(catalogId) {
-    console.log(catalogId)
-    const res = await fetch(`${process.env.API_URL}/catalogs/${catalogId}/products`)
-    if(!res.ok){
-        throw new Error('データの取得に失敗しました')
-    }
-
-    return res.json()
 }

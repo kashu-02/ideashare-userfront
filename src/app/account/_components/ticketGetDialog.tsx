@@ -6,6 +6,7 @@ import Image from 'next/image';
 import TicketGet from '../_icons/ticket_get.webp';
 import Ticket from '@/app/_icons/ticket.jpg';
 import Typography from "@mui/material/Typography";
+import {DialogContent} from "@mui/material";
 
 export interface SimpleDialogProps {
     open: boolean;
@@ -13,7 +14,7 @@ export interface SimpleDialogProps {
 }
 
 export default (props: SimpleDialogProps) => {
-    const {onClose, open} = props;
+    const {open, onClose} = props;
 
     const handleClose = () => {
         onClose();
@@ -27,13 +28,17 @@ export default (props: SimpleDialogProps) => {
                 style: {
                     backgroundColor: 'transparent',
                     boxShadow: 'none',
+                    height: '90vh',
                 },
             }}
-            sx={{
-                width: '90vw',
-                maxWidth: 700,
-            }}
+
         >
+            <DialogContent
+                style={{
+                    overflow: "hidden",
+                    height: '100%'
+            }}
+            >
             <Box
                 display={'flex'}
                 flexDirection={'column'}
@@ -45,6 +50,7 @@ export default (props: SimpleDialogProps) => {
                 sx={{
                     backgroundColor: 'primary.main',
                 }}
+                height={'90vh'}
             >
                 <Image
                     src={TicketGet}
@@ -83,7 +89,7 @@ export default (props: SimpleDialogProps) => {
                     GET！
                 </Typography>
             </Box>
-
+            </DialogContent>
         </Dialog>
     )
 }

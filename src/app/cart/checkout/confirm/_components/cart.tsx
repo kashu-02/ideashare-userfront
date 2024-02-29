@@ -14,6 +14,7 @@ import CartItem from './cartItem';
 import DetailIcon from '../_icons/detail.svg'
 import CatalogIcon from '../../../../_icons/bottom/searchIcon.svg'
 import TicketIcon from '@/app/_icons/ticket.jpg'
+import {useState} from "react";
 
 const CheckoutButton = styled(Button)<ButtonProps>(({theme}) =>({
     width: '25vw',
@@ -32,8 +33,50 @@ const CheckoutButton = styled(Button)<ButtonProps>(({theme}) =>({
     },
 }));
 
-export default () => {
+interface Props{
+    data: {
+        totalPrice: number;
+        cartItems: CartItem[]
+    },
+    profile: {
+        ticket: number;
+        address: string;
+        name: string;
+    }
+}
+export default (props: Props) => {
     const router = useRouter()
+    const [name, setName ] = useState(props.profile.name)
+    const [ address, setAddress] = useState(props.profile.address)
+    const [loading, setLoading] = useState(false)
+    const placeOrder = async() =>{
+        setLoading(true)
+        const bodyItems = props.data.cartItems.map((item, index)=>{
+            return {
+                catalogProductId: item.catalogProductId,
+                quantity: item.quantity
+            }
+        })
+        try {
+            const res = await fetch(`${window.location.origin}/api/placeOrder`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    address,
+                    items: bodyItems,
+                }),
+            })
+            console.log(await res.json())
+            router.push('/')
+        } finally {
+            setLoading(false)
+        }
+    }
+
+
     return (
         <Box
         display={'flex'}
@@ -66,23 +109,41 @@ export default () => {
                     justifyContent={'space-between'}
                     alignItems={'center'}
                         >
-                    <Typography>
+                    <Typography
+                    sx={{
+                        whiteSpace: 'nowrap',
+                        marginRight: '1rem',
+                    }}
+                    >
                         お届け先
                     </Typography>
                     <Typography
                         // variant={"h6"}
                         justifySelf={'end'}
+                        sx={{
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis'
+                        }}
                     >
-                        山田花子　福島県会津若松市一箕町…
+                        {`${name}　${address}`}
                     </Typography>
                     <Typography
                         justifySelf={'end'}
                         color={'secondary.main'}
+                        sx={{
+                            whiteSpace: 'nowrap',
+                            marginLeft: '0.5rem',
+                        }}
                     >
                         変更
                     </Typography>
                 </Box>
-                <CartItem />
+                {props.data.cartItems.map((item, index) =>
+                    (
+                        <CartItem data={item} keys={index} />
+                    )
+                )}
                 <Divider/>
                 <Box
                 display={'flex'}
@@ -96,11 +157,13 @@ export default () => {
                     variant={"h6"}
                     color={'primary.main'}
                     >
-                        4000円
+                        {`${props.data.totalPrice}円`}
                     </Typography>
                 </Box>
             </Box>
             <CheckoutButton
+                disabled={loading}
+                onClick={placeOrder}
                 sx={{
                     marginTop: '2rem'
                 }}

@@ -30,14 +30,41 @@ const ColorButton = styled(Button)<ButtonProps>(({theme}) => ({
     },
 }));
 
+interface CartItem {
+    id: string;
+    catalogProductId: string;
+    price: number;
+    quantity: number;
+    CatalogProduct: {
+        name: string;
+        images: {
+            imageUrl: string;
+        }[]
+    }
+}
+interface Props{
+    data: CartItem;
+    updateCart;
+}
+export default (props: Props) => {
+    const [quantity, setQuantity] = React.useState(props.data.quantity);
 
-export default (props: { catalogName: string }) => {
-    const router = useRouter()
-    const [quantity, setQuantity] = React.useState(1);
-
-    const handleChange = (event: SelectChangeEvent) => {
+    const handleQuantityChange = (event: SelectChangeEvent) => {
         setQuantity(Number(event.target.value));
+        props.updateCart({
+            cartProductId: props.data.id,
+            catalogProductId: props.data.catalogProductId,
+            quantity: event.target.value,
+        })
     };
+
+    const handleDelete = () =>{
+        props.updateCart({
+            cartProductId: props.data.id,
+            catalogProductId: props.data.catalogProductId,
+            quantity: 0,
+        })
+    }
 
     return (
         <Box
@@ -49,7 +76,7 @@ export default (props: { catalogName: string }) => {
                 width='100%'
             >
                 <Image
-                    src={"https://placehold.jp/100x100.png"}
+                    src={props.data.CatalogProduct.images[0]?.imageUrl}
                     alt={"Item"}
                     width={100}
                     height={100}
@@ -67,7 +94,7 @@ export default (props: { catalogName: string }) => {
                     <Typography
                         variant={"h6"}
                     >
-                        商品名
+                        {props.data.CatalogProduct.name}
                     </Typography>
                     <Box
                         display={"flex"}
@@ -83,7 +110,7 @@ export default (props: { catalogName: string }) => {
                                 marginRight: '0.5rem',
                             }}
                         >
-                            1000円
+                            {`${props.data.price}円`}
                         </Typography>
                         <Typography
                             variant={"h6"}
@@ -105,19 +132,21 @@ export default (props: { catalogName: string }) => {
                             数量
                         </Typography>
                         <FormControl sx={{m: 1}} size="small">
-                            {/*<InputLabel id="demo-select-small-label">Age</InputLabel>*/}
                             <Select
-                                labelId="demo-select-small-label"
-                                id="demo-select-small"
                                 value={quantity}
-                                // label="Age"
-                                onChange={handleChange}
+                                onChange={handleQuantityChange}
                                 autoWidth
-                            >
-                                <MenuItem value={1}>1</MenuItem>
+                            >{
+                                Array.from(Array(5)).map((_,index) =>(
+                                    <MenuItem value={index + 1} key={index}>{index + 1}</MenuItem>
+                                ))
+                            }
                             </Select>
                         </FormControl>
-                        <ColorButton variant="contained">削除</ColorButton>
+                        <ColorButton
+                            variant="contained"
+                            onClick={handleDelete}
+                        >削除</ColorButton>
                     </Box>
                 </Box>
             </Box>

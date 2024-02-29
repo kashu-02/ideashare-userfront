@@ -1,44 +1,72 @@
 'use client'
 import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography";
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import InputLabel from '@mui/material/InputLabel';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+import TextField, {TextFieldProps} from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import { OutlinedInputProps } from '@mui/material/OutlinedInput';
-import Button, { ButtonProps } from "@mui/material/Button";
-import {useRef, createRef, RefObject} from "react";
+import {OutlinedInputProps} from '@mui/material/OutlinedInput';
+import Button, {ButtonProps} from "@mui/material/Button";
+import {useRef, createRef, RefObject, useState} from "react";
+import {useUser} from '@auth0/nextjs-auth0/client';
+import {Controller, SubmitHandler, useForm} from 'react-hook-form'
 
-export default () => {
+interface Props {
+    data: {
+        id: string;
+        questions: {
+            id: string;
+            question: string;
+            required: boolean;
+        }[]
+    }
+}
 
+export default (props: Props) => {
+    const {user, error, isLoading: isAuth0Loading} = useUser()
+    const [submitLoading, setSubmitLoading] = useState(false)
+    const {control, handleSubmit, formState: { errors },} = useForm({})
     const answerRefs = useRef<RefObject<HTMLInputElement>[]>([])
 
-    const questions = [
-        {
-            id: '1',
-            question: 'あなたの考えるこの商品名を教えてください',
-            required: true,
-        },
-        {
-            id: '2',
-            question: 'その商品名にした理由を教えて下さい',
-            required: true,
-        },
-        {
-            id: '3',
-            question: '他にも名前の候補があればお願いします',
-            required: true,
-        },
-    ]
+    const questions = props.data.questions
 
     questions.forEach((_, index) => {
         answerRefs.current[index] = createRef<HTMLInputElement>()
     })
-    const submit = () =>{
-        answerRefs.current.forEach((data, index) =>{
-            console.log(index, data.current?.value, data.current?.validity.valid)
+
+    const submit = (data) => {
+        setSubmitLoading(true)
+        if (isAuth0Loading || !user) {
+            setSubmitLoading(false)
+            console.log("user is not logged in")
+            return
+        }
+
+        const answers = Object.keys(data).map((key) => {
+            return {
+                questionId: key,
+                answer: data[key]
+            }
         })
+        console.log('answers', answers)
+        fetch(`${window.location.origin}/api/answerQuestion`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                problemId: props.data.id,
+                answers: answers
+            }),
+        }).then((resultRaw) => {
+            resultRaw.json().then((result) => {
+                console.log(result)
+            })
+            setSubmitLoading(false)
+        })
+
+
     }
 
     const AnswerInput = styled(TextField)({
@@ -56,9 +84,9 @@ export default () => {
         },
     });
 
-    const AddToCartButton = styled(Button)<ButtonProps>(({theme}) =>({
-        width: '25vw',
-        maxWidth: 200,
+    const AddToCartButton = styled(Button)<ButtonProps>(({theme}) => ({
+        // width: '30vw',
+        maxWidth: 300,
         height: 'auto',
         color: '#FFFFFF',
         backgroundColor: '#00BCD7',
@@ -79,7 +107,7 @@ export default () => {
             <Box
                 display={'flex'}
                 flexDirection={'column'}
-                >
+            >
                 {questions.map((question, index) => (<div key={index}>
                         <Box
                             justifySelf={'start'}
@@ -98,14 +126,26 @@ export default () => {
                                 {`Q${index + 1}　${question.question}`}
                             </Typography>
                         </Box>
-                        <AnswerInput
-                            label={'A:'}
-                            required={question.required}
-                            inputRef={answerRefs.current[index]}
-                            sx={{
-                                alignSelf: 'end',
-                                width: '80%'
+                        <Controller
+                            name={question.id}
+                            control={control}
+                            defaultValue=""
+                            rules={{
+                                required: { value: question.required, message: '必須入力' }
                             }}
+                            render={({ field, formState: { errors } }) => (
+                                <AnswerInput
+                                    {...field}
+                                    label={'A:'}
+                                    error={!!errors.text}
+                                    helperText={errors.text?.message as string}
+                                    // inputRef={answerRefs.current[index]}
+                                    sx={{
+                                        alignSelf: 'end',
+                                        width: '80%'
+                                    }}
+                                />
+                            )}
                         />
                     </div>)
                 )}
@@ -115,9 +155,10 @@ export default () => {
                         marginTop: '2rem',
                         marginX: '0.7rem',
                     }}
-                    onClick={submit}
+                    onClick={handleSubmit(submit)}
+                    disabled={isAuth0Loading || !user || submitLoading}
                 >
-                   送信
+                    {isAuth0Loading || !user ? "ログインが必要です" : "送信"}
                 </AddToCartButton>
             </Box>
         </>

@@ -30,8 +30,29 @@ const CheckoutButton = styled(Button)<ButtonProps>(({theme}) =>({
     },
 }));
 
-export default () => {
-    const router = useRouter()
+interface CartItem {
+    id: string;
+    catalogProductId: string;
+    price: number;
+    quantity: number;
+    CatalogProduct: {
+        name: string;
+        images: {
+            imageUrl: string;
+        }[]
+    }
+}
+interface Props{
+    data: {
+        totalPrice: number;
+        cartItems: CartItem[]
+    },
+    profile: {
+        ticket: number;
+    }
+    updateCart
+}
+export default (props: Props) => {
     return (
         <Box
         display={'flex'}
@@ -43,76 +64,87 @@ export default () => {
         borderRadius={4}
         padding={'2rem'}
         >
-            <CartItem />
-            <Box
-                width={'100%'}
-            >
-                <Divider/>
-                <Box
-                display={'flex'}
-                justifyContent={'space-between'}
-                alignItems={'center'}
-                >
-                    <Typography>
-                        必要チケット
-                    </Typography>
-                    <Typography
-                    variant={"h6"}
-                    color={'secondary.main'}
-                    >
-                        4000円
-                    </Typography>
-                </Box>
-                <Box
-                    display={'flex'}
-                    justifyContent={'space-between'}
-                    alignItems={'center'}
-                >
-                    <Typography
-                        color={'secondary.main'}
-                    >
-                        所持チケット
-                    </Typography>
-                    <Box
-                    display={'flex'}
-                    alignItems={'center'}
-                    >
-                        <Image
-                            src={TicketIcon}
-                            alt={'ticket'}
-                            width={151}
-                            height={73}
-                            sizes="4rem"
-                            style={{
-                                width: '100%',
-                                height: 'auto',
-                                border: '1px solid #707070'
-                            }}
-                        />
-                        <Box
-                            border={1}
-                            borderColor={'secondary.main'}
-                            borderRadius={9999}
-                            marginLeft={1}
-                            padding={'0.1rem 1rem 0.1rem 1rem'}
-                        >
-                            <Typography
-                                color={'secondary.main'}
-                            >
-                                ×6
-                            </Typography>
-                        </Box>
-                    </Box>
-                </Box>
-            </Box>
-            <CheckoutButton
-                href={'/cart/checkout/confirm'}
-                sx={{
-                    marginTop: '2rem'
-                }}
-            >
-                発送手続き
-            </CheckoutButton>
+            {Boolean(props.data?.totalPrice) && <CartBody data={props.data} profile={props.profile} updateCart={props.updateCart}/>}
+            {!props.data?.totalPrice && <Typography>カート内に商品がありません</Typography>}
         </Box>
     )
 }
+
+const CartBody = (props: Props) => (
+    <>
+        {props.data.cartItems.map((item, index) =>
+            (
+                <CartItem data={item} keys={index} updateCart={props.updateCart}/>
+            )
+        )}
+        <Box
+            width={'100%'}
+        >
+            <Divider/>
+            <Box
+                display={'flex'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+            >
+                <Typography>
+                    必要チケット
+                </Typography>
+                <Typography
+                    variant={"h6"}
+                    color={'secondary.main'}
+                >
+                    {`${props.data.totalPrice}円`}
+                </Typography>
+            </Box>
+            <Box
+                display={'flex'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+            >
+                <Typography
+                    color={'secondary.main'}
+                >
+                    所持チケット
+                </Typography>
+                <Box
+                    display={'flex'}
+                    alignItems={'center'}
+                >
+                    <Image
+                        src={TicketIcon}
+                        alt={'ticket'}
+                        width={151}
+                        height={73}
+                        sizes="4rem"
+                        style={{
+                            width: '100%',
+                            height: 'auto',
+                            border: '1px solid #707070'
+                        }}
+                    />
+                    <Box
+                        border={1}
+                        borderColor={'secondary.main'}
+                        borderRadius={9999}
+                        marginLeft={1}
+                        padding={'0.1rem 1rem 0.1rem 1rem'}
+                    >
+                        <Typography
+                            color={'secondary.main'}
+                        >
+                            {`x${props.profile?.ticket}`}
+                        </Typography>
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
+        <CheckoutButton
+            href={'/cart/checkout/confirm'}
+            sx={{
+                marginTop: '2rem'
+            }}
+        >
+            発送手続き
+        </CheckoutButton>
+    </>
+)

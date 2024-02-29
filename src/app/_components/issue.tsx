@@ -1,6 +1,9 @@
+import NextLink from 'next/link'
+import dayjs from 'dayjs';
 import Image from 'next/image'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import {CardActionArea} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
@@ -14,7 +17,20 @@ interface Props {
         content: string;
     }
 }
-export default () => (
+
+interface Props{
+    data: {
+        id: string;
+        shortTitle: string;
+        rewards: number;
+        deadline: string;
+        imageUrl: string;
+        Company:{
+            name: string;
+        }
+    }
+}
+export default (props: Props) => (
     <Card
         elevation={0}
         variant={'outlined'}
@@ -23,9 +39,11 @@ export default () => (
             borderRadius: '10px'
         }}
     >
+        <NextLink href={`/issues/${props.data.id}`} legacyBehavior>
+        <CardActionArea>
         <CardContent>
             <Image
-                src={"https://placehold.jp/500x400.png"}
+                src={props.data.imageUrl}
                 alt={"image"}
                 width={500}
                 height={400}
@@ -36,19 +54,21 @@ export default () => (
                 }}
             />
             <Typography gutterBottom variant="h5">
-                一言課題
+                {props.data?.shortTitle}
             </Typography>
             <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', pl: 1, pb: 1}}>
                 <Typography gutterBottom variant="body1">
-                    O月O日まで
+                    {`${dayjs(props.data?.deadline).format("MM月DD日")}まで`}
                 </Typography>
                 <Typography gutterBottom variant="body1" align="right">
-                    報酬
+                    {`${props.data?.rewards}pt`}
                 </Typography>
             </Box>
             <Typography gutterBottom variant="caption">
-                会社名
+                {props.data?.Company.name}
             </Typography>
         </CardContent>
+        </CardActionArea>
+        </NextLink>
     </Card>
 )

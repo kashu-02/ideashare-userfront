@@ -8,9 +8,13 @@ import SvgIcon from "@mui/material/SvgIcon";
 
 import Pencil from '../_icons/pencil.svg'
 
-
-export default () => {
-    const router = useRouter()
+interface Props{
+    data: {
+        avatar: string;
+        nickname: string;
+    }
+}
+export default (props: Props) => {
     return (
         <Box
         display={'flex'}
@@ -23,11 +27,11 @@ export default () => {
         }}
         >
             <Avatar
-                alt="Remy Sharp"
-                src=""
+                alt="avatar icon"
+                src={props.data?.avatar}
                 sx={{ width: '5rem', height: '5rem' }}
             >
-                Test
+                {props.data?.nickname || ""}
             </Avatar>
             <Typography
                 color={"white"}
@@ -35,7 +39,7 @@ export default () => {
                 marginTop: '1rem'
             }}
             >
-                ニックネーム
+                {props.data?.nickname || "読込中"}
             </Typography>
             <Box
             display={'flex'}
@@ -58,6 +62,7 @@ export default () => {
                     variant={'caption'}
                     align={'center'}
                     sx={{
+                        marginTop: '0.2rem',
                         marginLeft: 1
                     }}
                 >

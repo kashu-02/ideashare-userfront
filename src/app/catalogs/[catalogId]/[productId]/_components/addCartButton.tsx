@@ -48,7 +48,6 @@ interface Props{
 export default (props: Props) => {
     const router = useRouter();
     const {user, error } = useUser();
-    console.log(error)
     const [loading, setLoading] = useState(false);
 
     const addToCart = async() =>{
@@ -62,7 +61,7 @@ export default (props: Props) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    productId: props.productId
+                    productId: props.productId,
                 }),
             })
             console.log(await res.json())

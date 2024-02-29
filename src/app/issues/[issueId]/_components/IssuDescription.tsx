@@ -3,36 +3,15 @@ import Typography from "@mui/material/Typography";
 import Carousel from './IssueDescriptionCarousel';
 import Markdown, {Components} from "react-markdown";
 
-export default () => {
-    const markdown = `
-# Markdown
+interface Props{
+    data:{
+        title: string;
+        imageUrl: string;
+        content: string;
+    }
+}
+export default (props: Props) => {
 
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni, nemo!
-
-# Markdown
-
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni, nemo!
-
-# Markdown
-
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni, nemo!
-
-# Markdown
-
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni, nemo!
-
-# Markdown
-
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni, nemo!
-
-# Markdown
-
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni, nemo!
-
-# Markdown
-
-Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni, nemo!
-`;
     const components : Components = {
         h1: 'h4',
         h2: 'h5',
@@ -56,9 +35,9 @@ Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni, nemo!
                 お題
             </Typography>
             <Typography>
-                こちらの商品名を考えてください！
+                {props.data.title}
             </Typography>
-            <Carousel />
+            <Carousel images={[props.data.imageUrl]}/>
             <div
                 className={'markdown'}
                 style={{
@@ -68,7 +47,7 @@ Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni, nemo!
                 <Markdown
                     components={components}
                 >
-                    {markdown}
+                    {props.data.content}
                 </Markdown>
             </div>
         </>

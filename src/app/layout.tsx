@@ -10,7 +10,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 const inter = Inter({subsets: ['latin']})
 
-export const runtime = 'edge';
+export const runtime = process.env.RUNTIME;
 export default function RootLayout({
                                        children,
                                    }: {
