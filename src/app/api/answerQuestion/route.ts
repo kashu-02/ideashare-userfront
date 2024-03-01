@@ -1,7 +1,7 @@
 import {withApiAuthRequired, getSession, getAccessToken } from '@auth0/nextjs-auth0/edge';
 import {NextResponse} from "next/server";
 
-export const runtime = process.env.RUNTIME;
+export const runtime = 'edge';
 export const dynamic = 'force-dynamic'
 
 export const POST = withApiAuthRequired(async function issuePOST(req) {
