@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import BottomNavigation from '@mui/material/BottomNavigation'
 import BottomNavigationAction from '@mui/material/BottomNavigationAction'
 import SvgIcon from "@mui/material/SvgIcon";
-import Link from "next/link";
+import NextLink from "next/link";
 
 import HomeIcon from '../_icons/bottom/homeIcon.svg'
 import SearchIcon from '../_icons/bottom/searchIcon.svg'
@@ -13,7 +13,7 @@ import CartIcon from '../_icons/bottom/cartIcon.svg'
 import AccountIcon from '../_icons/bottom/accountIcon.svg'
 
 
-export default () => function {
+export default () => {
     const pathName = usePathname();
     const path = `/${pathName.split("/")[1]}`
     const [value, setValue] = React.useState(path);
@@ -36,7 +36,7 @@ export default () => function {
             >
                 <BottomNavigationAction
                     value="/"
-                    LinkComponent={Link}
+                    LinkComponent={NextLink}
                     href="/"
                     label="ホーム"
                     icon={
@@ -48,7 +48,7 @@ export default () => function {
                 />
                 <BottomNavigationAction
                     value="/catalogs"
-                    LinkComponent={Link}
+                    LinkComponent={NextLink}
                     href="/catalogs"
                     label="さがす"
                     icon={
@@ -60,7 +60,7 @@ export default () => function {
                 />
                 <BottomNavigationAction
                     value="/cart"
-                    LinkComponent={Link}
+                    LinkComponent={NextLink}
                     label="カート"
                     href="/cart"
                     icon={
@@ -72,7 +72,7 @@ export default () => function {
                 />
                 <BottomNavigationAction
                     value="/account"
-                    LinkComponent={Link}
+                    LinkComponent={NextLink}
                     href={"/account"}
                     label="アカウント"
                     icon={
