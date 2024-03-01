@@ -13,7 +13,7 @@ import CartIcon from '../_icons/bottom/cartIcon.svg'
 import AccountIcon from '../_icons/bottom/accountIcon.svg'
 
 
-export default () => {
+export default () => function {
     const pathName = usePathname();
     const path = `/${pathName.split("/")[1]}`
     const [value, setValue] = React.useState(path);
