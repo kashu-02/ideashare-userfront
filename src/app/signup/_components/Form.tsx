@@ -20,6 +20,8 @@ import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 export default () => {
     const router = useRouter();
     const {user, error, isLoading} = useUser();
+    if(error) console.log(error)
+    const [avatar, setAvatar] = useState(user?.picture)
     const [loading, setLoading] = useState(false)
     const nicknameRef = useRef<HTMLInputElement>()
     const [gender, setGender] = useState(0)
@@ -47,7 +49,7 @@ export default () => {
                     birthday,
                     nickname,
                     gender,
-                    avatar: user?.picture,
+                    avatar,
                 }),
             })
             console.log(await res.json())
@@ -90,7 +92,7 @@ export default () => {
             >
                 {user && <Avatar
                     alt=""
-                    src={user.picture}
+                    src={avatar}
                     sx={{
                         width: '5rem',
                         height: '5rem',
@@ -196,7 +198,7 @@ export default () => {
                 </Grid>
                 <RegisterButton
                     onClick={buttonOnClick}
-                    disabled={loading}
+                    disabled={loading || isLoading}
                     sx={{
                         marginTop: '2rem'
                     }}
