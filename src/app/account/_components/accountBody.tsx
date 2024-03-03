@@ -1,5 +1,5 @@
 'use client'
-import * as React from 'react';
+import {useState} from 'react';
 import Image from 'next/image'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -21,8 +21,6 @@ import PointGrayIcon from "../_icons/point_gray.webp";
 import Divider from "@mui/material/Divider";
 
 import TicketGetDialog from "./ticketGetDialog";
-import {useState} from "react";
-import {set} from "zod";
 
 const GetTicketButton = styled(Button)<ButtonProps>(({theme}) => ({
     minWidth: 0,
@@ -47,7 +45,7 @@ interface Props{
 }
 export default (props: Props) => {
     const router = useRouter()
-    const [ticketDialogState, setTicketDialogState] = React.useState(false)
+    const [ticketDialogState, setTicketDialogState] = useState(false)
     const dialogOpenClick = () =>{
         setTicketDialogState(true)
         setTimeout(()=>{setTicketDialogState(false)},3000)
@@ -84,7 +82,7 @@ export default (props: Props) => {
                         height={73}
                         sizes="4rem"
                         style={{
-                            width: '100%',
+                            width: '4rem',
                             height: 'auto',
                             border: '1px solid #707070'
                         }}
@@ -99,7 +97,7 @@ export default (props: Props) => {
                         <Typography
                             color={'secondary.main'}
                         >
-                            {`x${String(props.data?.ticket)}`}
+                            {`x${String(props.data?.ticket || 0)}`}
                         </Typography>
                     </Box>
                 </Box>
@@ -129,7 +127,7 @@ export default (props: Props) => {
                     borderRadius={14}
                     padding={'1rem'}
                 >
-                    <Grid container rowSpacing={2} columnSpacing={4} columns={10}>
+                    <Grid container rowSpacing={1} columnSpacing={2} columns={10}>
                         {Array.from(Array(Number(props.data?.point) || 0)).map((_, index) =>
                             <Grid xs={2} key={index}>
                                 <Image
@@ -137,7 +135,7 @@ export default (props: Props) => {
                                     alt={'point'}
                                     width={1032}
                                     height={1025}
-                                    sizes='3rem'
+                                    sizes='5rem'
                                     style={{
                                         width: '100%',
                                         height: 'auto'
@@ -164,6 +162,7 @@ export default (props: Props) => {
                 </Box>
                 <GetTicketButton
                     onClick={dialogOpenClick}
+                    disable={props.data.point >= 10}
                 >
                     1000円チケットをGETしよう！
                     <TicketGetDialog open={ticketDialogState} onClose={dialogClose}/>

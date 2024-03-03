@@ -1,8 +1,11 @@
 .main {
+}
+
+.body{
     position: relative;
     margin: auto auto auto auto;
-    padding-bottom: 10vh;
+    padding-bottom: 20vh;
     left: 50%;
     transform: translate(-50%);
-    height: 110%;
+    height: 120%;
 }

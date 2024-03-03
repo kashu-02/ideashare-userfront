@@ -24,7 +24,7 @@ export const GET = handleAuth({
     login: handleLogin({
         authorizationParams: {
             connection: 'line',
-            audience: 'https://api.idea-shares.com',
+            audience: 'https://api.idea-fanding.com',
         }
     }),
     async callback(req, ctx) {

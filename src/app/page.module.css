@@ -1,6 +1,9 @@
-.main {
-  /*min-height: 100vh;*/
-  /*position: absolute;*/
-  /*padding-bottom: 10rem;*/
-  height: 100%;
+.main{
+}
+
+.body {
+  position: absolute;
+  margin: 3rem auto 5rem auto;
+  left: 50%;
+  transform: translate(-50%);
 }

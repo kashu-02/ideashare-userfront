@@ -10,7 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import SvgIcon from "@mui/material/SvgIcon";
-import { useUser } from '@auth0/nextjs-auth0/client';
+import {useUser} from '@auth0/nextjs-auth0/client';
 
 import NotificationIcon from '../_icons/notification.svg';
 import TodoCheckIcon from '../_icons/todoCheck.svg';
@@ -29,10 +29,11 @@ export default () => {
         marginLeft: 0,
         // marginRight: theme.spacing(2),
         // width: '100%',
-        // [theme.breakpoints.up('sm')]: {
-        //     marginLeft: theme.spacing(3),
-        width: 'auto',
-        // },
+        width: '50%',
+        [theme.breakpoints.up('sm')]: {
+            // marginLeft: theme.spacing(3),
+            width: '400px',
+        },
     }));
 
     const SearchIconWrapper = styled('div')(({theme}) => ({
@@ -62,7 +63,7 @@ export default () => {
         },
     }));
 
-    const { user, error, isLoading } = useUser();
+    const {user, error, isLoading} = useUser();
 
     return (
         // <Box sx={{ flexGrow: 1 }}>
@@ -91,7 +92,7 @@ export default () => {
                                 }}
                             >
                                 <SvgIcon>
-                                    <NotificationIcon />
+                                    <NotificationIcon/>
                                 </SvgIcon>
                             </IconButton>
                             <IconButton
@@ -100,7 +101,7 @@ export default () => {
                                 }}
                             >
                                 <SvgIcon>
-                                    <TodoCheckIcon />
+                                    <TodoCheckIcon/>
                                 </SvgIcon>
                             </IconButton>
                         </>
@@ -109,6 +110,8 @@ export default () => {
                             <Button
                                 color="primary"
                                 variant="outlined"
+                                disableElevation={true}
+                                size="small"
                                 href={'/api/auth/login'}
                                 sx={{
                                     backgroundColor: "#FFFFFF",
@@ -120,6 +123,8 @@ export default () => {
                             <Button
                                 color="primary"
                                 variant="contained"
+                                disableElevation={true}
+                                size="small"
                                 href={'/api/auth/login'}
                                 sx={{
                                     marginX: "0.5rem"

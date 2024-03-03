@@ -8,6 +8,7 @@ import {useEffect, useState} from "react";
 
 export default async function Home() {
     const issuesResponse = await fetch(`${process.env.API_URL}/problems`)
+    console.log(issuesResponse.status)
     const issues = await issuesResponse.json()
     console.log(issues)
     return (

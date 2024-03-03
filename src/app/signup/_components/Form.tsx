@@ -58,7 +58,7 @@ export default () => {
     }
 
     const RegisterButton = styled(Button)<ButtonProps>(({theme}) => ({
-        width: '25vw',
+        width: '35vw',
         maxWidth: 200,
         height: 'auto',
         color: '#FFFFFF',
@@ -85,6 +85,8 @@ export default () => {
                 flexDirection={'column'}
                 justifyContent={'center'}
                 alignItems={'center'}
+                width={'80vw'}
+                maxWidth={'500px'}
             >
                 {user && <Avatar
                     alt=""

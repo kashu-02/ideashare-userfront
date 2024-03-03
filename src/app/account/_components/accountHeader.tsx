@@ -36,7 +36,7 @@ export default (props: Props) => {
             <Typography
                 color={"white"}
             sx={{
-                marginTop: '1rem'
+                marginTop: '2rem'
             }}
             >
                 {props.data?.nickname || "読込中"}
