@@ -162,7 +162,7 @@ export default (props: Props) => {
                 </Box>
                 <GetTicketButton
                     onClick={dialogOpenClick}
-                    disable={props.data.point >= 10}
+                    disabled={props.data.point < 10}
                 >
                     1000円チケットをGETしよう！
                     <TicketGetDialog open={ticketDialogState} onClose={dialogClose}/>
