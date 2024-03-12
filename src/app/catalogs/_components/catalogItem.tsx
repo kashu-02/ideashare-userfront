@@ -1,4 +1,3 @@
-'use client'
 import NextLink from 'next/link';
 import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
@@ -15,12 +14,14 @@ interface CatalogData{
     id: string;
     name: string;
     price: number;
+    imageUrl: string;
     createdAt: string;
     updatedAt: string;
     deletedAt?: string;
 }
 export default (props: {catalog: CatalogData}) => {
     const catalog = props.catalog;
+    console.log(catalog)
     return (
         <Card
             sx={{
@@ -42,8 +43,8 @@ export default (props: {catalog: CatalogData}) => {
                             width: "100%",
                             height: "100%",
                         }}
-                        image="https://placehold.jp/500x400.png"
-                        title="aaa"
+                        image={props.catalog.imageUrl}
+                        title="catalog image"
                     />
                     <CardContent
                         sx={{

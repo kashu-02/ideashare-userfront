@@ -5,16 +5,19 @@ import Divider from "@mui/material/Divider";
 import NotifyItem from './notifyItem';
 
 
-export default () => {
-
+interface Props{
+    notifications: object[]
+}
+export default (props:Props) => {
+    const notifications = props.notifications
     return (
         <Box
             display={'flex'}
             flexDirection={'column'}
         >
-            {Array.from(Array(6)).map((_, index) =>
+            {notifications.map((notification, index) =>
                 <div key={index}>
-                    <NotifyItem />
+                    <NotifyItem notification={notification}/>
                     <Divider flexItem />
                 </div>
             )}

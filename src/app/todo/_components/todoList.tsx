@@ -1,4 +1,3 @@
-// 'use client'
 import NextLink from 'next/link'
 import Image from 'next/image';
 import Card from '@mui/material/Card'
@@ -8,17 +7,9 @@ import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography";
 import {CardActionArea} from '@mui/material';
 
-import {daytimeAgoConverter} from "@/app/_logic/daytimeAgoConverter";
-
 import IdeashareIcon from '../_icons/ideashare-icon.webp';
 
-interface Props{
-    notification: {
-        title: string;
-        createdAt: string;
-    }
-}
-export default (props: Props) => {
+export default () => {
     return (
         <Card
             sx={{
@@ -59,12 +50,12 @@ export default (props: Props) => {
                                 <Typography
                                     variant={'h6'}
                                 >
-                                    {props.notification.title}
+                                    「商品名募集！」の結果が出ました！
                                 </Typography>
                                 <Typography
                                     variant={'caption'}
                                 >
-                                    {daytimeAgoConverter(props.notification.createdAt)}
+                                    2時間前
                                 </Typography>
                             </Box>
                         </Box>

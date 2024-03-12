@@ -3,9 +3,8 @@
 
 .body {
     position: absolute;
-    width: 100vw;
-    margin: 0 auto 1rem auto;
-    padding-bottom: 10vh;
+    margin: 3rem auto 0 auto;
+    padding-bottom: 20vh;
     left: 50%;
     transform: translate(-50%);
 }

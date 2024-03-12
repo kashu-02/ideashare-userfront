@@ -7,8 +7,10 @@ import ProductItem from './_components/productItem'
 import styles from './page.module.css'
 
 export default async function CatalogSelect({params}: { params: { catalogId: string } }) {
-    const products = await getData(params.catalogId)
-
+    const [products, catalog] = await Promise.all([
+        getCatalogProducts(params.catalogId),
+        getCatalog(params.catalogId)
+    ])
     return (
         <main className={styles.main}>
             <Header/>
@@ -36,7 +38,7 @@ export default async function CatalogSelect({params}: { params: { catalogId: str
                                 color: 'secondary.main',
                             }}
                         >
-                            3000円コースカタログ
+                            {`${catalog.name}コースカタログ`}
                         </Typography>
                     </Box>
                 </Grid>
@@ -56,9 +58,19 @@ export default async function CatalogSelect({params}: { params: { catalogId: str
 }
 
 
-async function getData(catalogId) {
+async function getCatalogProducts(catalogId) {
     console.log(catalogId)
     const res = await fetch(`${process.env.API_URL}/catalogs/${catalogId}/products`)
+    if(!res.ok){
+        throw new Error('データの取得に失敗しました')
+    }
+
+    return res.json()
+}
+
+async function getCatalog(catalogId) {
+    console.log(catalogId)
+    const res = await fetch(`${process.env.API_URL}/catalogs/${catalogId}`)
     if(!res.ok){
         throw new Error('データの取得に失敗しました')
     }

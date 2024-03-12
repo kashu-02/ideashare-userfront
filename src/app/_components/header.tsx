@@ -87,6 +87,7 @@ export default () => {
                     user ?
                         <>
                             <IconButton
+                                href={"/notifications"}
                                 sx={{
                                     marginX: "0.5rem",
                                 }}
@@ -96,6 +97,7 @@ export default () => {
                                 </SvgIcon>
                             </IconButton>
                             <IconButton
+                                href={"todo"}
                                 sx={{
                                     marginX: "0.5rem"
                                 }}

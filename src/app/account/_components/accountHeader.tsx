@@ -39,7 +39,7 @@ export default (props: Props) => {
                 marginTop: '2rem'
             }}
             >
-                {props.data?.nickname || "読込中"}
+                {props.data?.nickname || ""}
             </Typography>
             <Box
             display={'flex'}

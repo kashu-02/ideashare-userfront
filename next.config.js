@@ -62,13 +62,13 @@ const nextConfig = withPWA({
             },
             {
                 protocol: 'https',
-                hostname: 'idea-shares.com',
+                hostname: '*.idea-shares.com',
                 port: '',
                 pathname: '/**',
             },
             {
                 protocol: 'https',
-                hostname: 'idea-fanding.com',
+                hostname: '*.idea-fanding.com',
                 port: '',
                 pathname: '/**',
             },

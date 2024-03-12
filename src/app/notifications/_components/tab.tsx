@@ -6,8 +6,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from "@mui/material/Typography";
 
-import NotifyForYou from "./notifyForYou";
-import NotifyNews from "./notifyNews";
+import NotificationItems from "./notificationItems";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -15,7 +14,10 @@ interface TabPanelProps {
     value: number;
 }
 
-export default () => {
+interface Props{
+    notifications: object[]
+}
+export default (props: Props) => {
     const [value, setValue] = React.useState(0);
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -34,12 +36,11 @@ export default () => {
                 <Tab value={0} label="あなた宛"/>
                 <Tab value={1} label="ニュース"/>
             </Tabs>
-            <TabPanel value={value} index={0}>
-                <NotifyForYou />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                <NotifyNews />
-            </TabPanel>
+            {Array.from(Array(2)).map((index) =>(
+                <TabPanel value={value} index={index} key={index}>
+                    <NotificationItems notifications={props.notifications[index]}/>
+                </TabPanel>
+            ))}
         </>
     )
 }

@@ -1,7 +1,3 @@
-'use client'
-import Grid from '@mui/material/Unstable_Grid2';
-
-
 import Header from './_components/header'
 import Container from '@mui/material/Container';
 import AccountHeader from './_components/accountHeader';
@@ -9,36 +5,36 @@ import AccountBody from './_components/accountBody';
 import AccountBottom from "./_components/accountBottom";
 import styles from './page.module.css'
 
-import {withPageAuthRequired} from '@auth0/nextjs-auth0/client';
-import {useEffect, useState} from "react";
-import Loading from '@/app/_components/loading'
+import {withPageAuthRequired, getAccessToken} from '@auth0/nextjs-auth0/edge';
 
-export default withPageAuthRequired(function CheckoutPage() {
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        (async () => {
-            const res = await fetch(`${window.location.origin}/api/profile`);
-            setUser(await res.json());
-        })();
-    }, []);
+export default withPageAuthRequired(async function CheckoutPage() {
+    const {accessToken} = await getAccessToken()
+    const user = await getData(accessToken!)
 
     return (
         <main>
             <Header/>
             <div className={styles.body}>
-                {user ?
-                <>
                     <AccountHeader data={user}/>
                     <AccountBody data={user}/>
                     <AccountBottom/>
-                </>
-                    :
-                    <>
-                        <Loading loading={!Boolean(user)}/>
-                    </>
-                }
             </div>
         </main>
     )
 });
+
+async function getData(accessToken : string) {
+    console.log(accessToken)
+    const res = await fetch(`${process.env.API_URL}/account`,{
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        },
+    })
+    if (!res.ok) {
+        console.error(res.status)
+        throw new Error('データの取得に失敗しました')
+    }
+    return await res.json()
+}
+
