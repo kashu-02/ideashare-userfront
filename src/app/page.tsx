@@ -6,6 +6,7 @@ import Issue from './_components/issue'
 import styles from './page.module.css'
 import {useEffect, useState} from "react";
 
+export const revalidate = 60;
 export default async function Home() {
     const issuesResponse = await fetch(`${process.env.API_URL}/problems`)
     console.log(issuesResponse.status)

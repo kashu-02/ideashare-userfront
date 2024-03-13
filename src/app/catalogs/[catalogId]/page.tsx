@@ -6,6 +6,7 @@ import Header from '../_components/header'
 import ProductItem from './_components/productItem'
 import styles from './page.module.css'
 
+export const revalidate = 60
 export default async function CatalogSelect({params}: { params: { catalogId: string } }) {
     const [products, catalog] = await Promise.all([
         getCatalogProducts(params.catalogId),

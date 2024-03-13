@@ -8,6 +8,7 @@ import ProductDetailBody from "./_components/productDetailBody";
 import AddCartButton from "./_components/addCartButton";
 import styles from './page.module.css'
 
+export const revalidate = 60
 export default async function ProductDetail({params}: { params: { productId: string } }) {
     const productDetail = await getData(params.productId)
 

@@ -5,6 +5,7 @@ import Header from './_components/header'
 import CatalogItem from './_components/catalogItem'
 import styles from './page.module.css'
 
+export const revalidate = 600;
 export default async function Home() {
     const catalogs = await getCatalogs()
     console.log(catalogs)

@@ -31,6 +31,9 @@ export default function RootLayout({
                 main: "#FADF0A",
                 contrastText: "#707070"
             },
+            white:{
+                main: "#FFFFFF"
+            },
             text: {
                 primary: '#707070'
             }

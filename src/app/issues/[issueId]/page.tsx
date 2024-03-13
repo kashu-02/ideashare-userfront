@@ -8,6 +8,7 @@ import IssueHeader from './_components/IssueHeader'
 import IssueDescription from "./_components/IssuDescription";
 import IssueQuestion from "./_components/IssueQuestion";
 
+export const revalidate = 60
 export default async function IssueDetail({params}: { params: { issueId: string } }) {
     const issueResponse = await fetch(`${process.env.API_URL}/problems/${params.issueId}`)
     const issue = await issueResponse.json()
