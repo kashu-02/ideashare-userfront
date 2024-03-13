@@ -39,3 +39,26 @@ export const POST = withApiAuthRequired(async function profilePOST(req) {
     const resJSON = await response.json()
     return NextResponse.json(resJSON, res);
 });
+
+export const PUT = withApiAuthRequired(async function profilePUT(req) {
+    const reqJSON = await req.json()
+    const res = new NextResponse();
+    const { accessToken } = await getAccessToken(req, res);
+    const response = await fetch(`${process.env.API_URL}/account`,{
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+            email: reqJSON.email,
+            nickname: reqJSON.nickname,
+            sex: reqJSON.gender,
+            birthday: reqJSON.birthday,
+            address: reqJSON.address,
+            avatar: reqJSON.avatar,
+        }),
+    })
+    const resJSON = await response.json()
+    return NextResponse.json(resJSON, res);
+});

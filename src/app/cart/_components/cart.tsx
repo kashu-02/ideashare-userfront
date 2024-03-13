@@ -14,7 +14,7 @@ import CartItem from './cartItem';
 import TicketIcon from '@/app/_icons/ticket.jpg'
 
 const CheckoutButton = styled(Button)<ButtonProps>(({theme}) =>({
-    width: '25vw',
+    width: 'auto',
     maxWidth: 200,
     height: 'auto',
     color: '#FFFFFF',
@@ -58,11 +58,11 @@ export default (props: Props) => {
         display={'flex'}
         flexDirection={'column'}
         alignItems={'center'}
-        width={'80vw'}
+        width={'90vw'}
         maxWidth={600}
         border={'1px solid #707070'}
         borderRadius={4}
-        padding={'2rem'}
+        padding={'1rem'}
         >
             {Boolean(props.data?.totalPrice) && <CartBody data={props.data} profile={props.profile} updateCart={props.updateCart}/>}
             {!props.data?.totalPrice && <Typography>カート内に商品がありません</Typography>}
@@ -115,7 +115,7 @@ const CartBody = (props: Props) => (
                         alt={'ticket'}
                         width={151}
                         height={73}
-                        sizes="4rem"
+                        sizes="3rem"
                         style={{
                             width: '100%',
                             height: 'auto',

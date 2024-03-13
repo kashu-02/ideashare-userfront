@@ -24,12 +24,12 @@ export default withPageAuthRequired(async function CheckoutPage() {
 });
 
 async function getData(accessToken : string) {
-    console.log(accessToken)
     const res = await fetch(`${process.env.API_URL}/account`,{
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${accessToken}`
         },
+        cache: 'no-cache',
     })
     if (!res.ok) {
         console.error(res.status)

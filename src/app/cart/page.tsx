@@ -13,7 +13,7 @@ export default withPageAuthRequired(function CartPage() {
     const [profile, setProfile] = useState(null)
 
     useEffect(() => {
-        fetch(`${window.location.origin}/api/cart`)
+        fetch(`${window.location.origin}/api/cart`,{ cache: 'no-store' })
             .then(response => response.json())
             .then((data) => {
                 console.log(data);

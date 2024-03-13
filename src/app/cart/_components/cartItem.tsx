@@ -74,6 +74,7 @@ export default (props: Props) => {
             <Box
                 display="flex"
                 width='100%'
+                flexGrow={1}
             >
                 <Image
                     src={props.data.CatalogProduct.images[0]?.imageUrl}
@@ -88,11 +89,11 @@ export default (props: Props) => {
                     flexDirection={"column"}
                     justifyContent={'center'}
                     alignItems={'start'}
-                    marginLeft={"2rem"}
+                    marginLeft={"1rem"}
                     width={'100%'}
                 >
                     <Typography
-                        variant={"h6"}
+                        variant={"body1"}
                     >
                         {props.data.CatalogProduct.name}
                     </Typography>
@@ -102,18 +103,18 @@ export default (props: Props) => {
                         alignItems={'center'}
                     >
                         <Typography
-                            variant={"h5"}
+                            variant={"body1"}
                             align={'center'}
                             color={'secondary.main'}
                             sx={{
                                 marginLeft: '1rem',
-                                marginRight: '0.5rem',
                             }}
                         >
                             {`${props.data.price}円`}
                         </Typography>
                         <Typography
-                            variant={"h6"}
+                            alignSelf={'end'}
+                            variant={"body2"}
                             align={'center'}
                             color={'secondary.main'}
                         >
@@ -123,12 +124,13 @@ export default (props: Props) => {
                     <Box
                         alignSelf={"end"}
                         display={"flex"}
-                        marginLeft={'3rem'}
                         padding={'0.1rem 1rem 0.1rem 1rem'}
                         justifyContent={'center'}
                         alignItems={'center'}
                     >
-                        <Typography>
+                        <Typography
+                            variant={"body2"}
+                        >
                             数量
                         </Typography>
                         <FormControl sx={{m: 1}} size="small">
@@ -146,7 +148,9 @@ export default (props: Props) => {
                         <ColorButton
                             variant="contained"
                             onClick={handleDelete}
-                        >削除</ColorButton>
+                        >
+                            削除
+                        </ColorButton>
                     </Box>
                 </Box>
             </Box>

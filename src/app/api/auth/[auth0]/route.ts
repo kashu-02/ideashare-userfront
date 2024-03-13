@@ -30,17 +30,12 @@ export const GET = handleAuth({
     async callback(req, ctx) {
         const res = (await handleCallback(req, ctx)) as NextResponse;
         const { accessToken } = await getAccessToken(req, res);
-        // console.log('accessToken', accessToken)
         const response = await fetch(`${process.env.API_URL}/account`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${accessToken}`,
             },
         })
-        console.log(response.status)
-        // if(res.status === 200) {
-        //     const data = await res.json()
-        // }
         if(response.status === 404){
             res.headers.set('location', '/signup');
         }

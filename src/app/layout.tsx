@@ -33,7 +33,8 @@ export default function RootLayout({
                 contrastText: "#707070"
             },
             white: {
-                main: "#FFFFFF"
+                main: "#FFFFFF",
+                contrastText: "#707070"
             },
             text: {
                 primary: '#707070'
@@ -52,6 +53,9 @@ export default function RootLayout({
                 'sans-serif',
             ].join(','),
             body1: {
+                fontWeight: 600,
+            },
+            body2: {
                 fontWeight: 600,
             },
             subtitle1: {
