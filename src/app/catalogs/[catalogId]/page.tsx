@@ -1,6 +1,7 @@
 import Grid from '@mui/material/Unstable_Grid2';
 import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 
 import Header from '../_components/header'
 import ProductItem from './_components/productItem'
@@ -15,7 +16,7 @@ export default async function CatalogSelect({params}: { params: { catalogId: str
     return (
         <main className={styles.main}>
             <Header/>
-            <Grid container spacing={3} sx={{ marginTop: '1rem'}}>
+            <Grid container spacing={3} sx={{marginTop: '1rem'}}>
                 <Grid xs={12} sm={12} md={12} position='relative' display="flex" justifyContent="end"
                       alignItems="center">
                     <Box
@@ -48,9 +49,10 @@ export default async function CatalogSelect({params}: { params: { catalogId: str
                           display="flex"
                           justifyContent="center"
                           alignItems="center">
-                        <ProductItem
-                            product={product}
-                        />
+                            <ProductItem
+                                product={product}
+                            />
+                        <Divider flexItem/>
                     </Grid>
                 ))}
             </Grid>
@@ -62,7 +64,7 @@ export default async function CatalogSelect({params}: { params: { catalogId: str
 async function getCatalogProducts(catalogId) {
     console.log(catalogId)
     const res = await fetch(`${process.env.API_URL}/catalogs/${catalogId}/products`)
-    if(!res.ok){
+    if (!res.ok) {
         throw new Error('データの取得に失敗しました')
     }
 
@@ -72,7 +74,7 @@ async function getCatalogProducts(catalogId) {
 async function getCatalog(catalogId) {
     console.log(catalogId)
     const res = await fetch(`${process.env.API_URL}/catalogs/${catalogId}`)
-    if(!res.ok){
+    if (!res.ok) {
         throw new Error('データの取得に失敗しました')
     }
 

@@ -5,10 +5,11 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button, { ButtonProps } from "@mui/material/Button";
 import {useState} from "react";
+import {useSnackbar} from '@/app/_components/snackbar';
 
 
 const AddToCartButton = styled(Button)<ButtonProps>(({theme}) =>({
-    width: '25vw',
+    width: '9rem',
     maxWidth: 200,
     height: 'auto',
     color: '#FFFFFF',
@@ -25,7 +26,7 @@ const AddToCartButton = styled(Button)<ButtonProps>(({theme}) =>({
 }));
 
 const BuyNowButton = styled(Button)<ButtonProps>(({theme}) =>({
-    width: '25vw',
+    width: '9rem',
     maxWidth: 200,
     height: 'auto',
     color: '#00BCD7',
@@ -49,6 +50,7 @@ export default (props: Props) => {
     const router = useRouter();
     const {user, error } = useUser();
     const [loading, setLoading] = useState(false);
+    const { showSnackbar } = useSnackbar()
 
     const addToCart = async() =>{
         setLoading(true)
@@ -65,6 +67,30 @@ export default (props: Props) => {
                 }),
             })
             console.log(await res.json())
+            showSnackbar('カートに追加しました！', 'success')
+        } catch (e){
+            console.error(e)
+            showSnackbar('カートに追加できませんでした', 'error')
+        } finally {
+            setLoading(false)
+        }
+    }
+    const buyNow = async() =>{
+        setLoading(true)
+        if(!user) router.push('/api/auth/login')
+
+        try {
+            const res = await fetch(`${window.location.origin}/api/cart`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    productId: props.productId,
+                }),
+            })
+            console.log(await res.json())
+            router.push('/cart/checkout/confirm')
         } finally {
             setLoading(false)
         }
@@ -91,6 +117,7 @@ export default (props: Props) => {
             </AddToCartButton>
             <BuyNowButton
                 disabled={loading}
+                onClick={buyNow}
                 sx={{
                     marginX: '0.7rem',
                 }}

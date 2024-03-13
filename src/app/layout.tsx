@@ -3,10 +3,11 @@ import {CssBaseline} from "@mui/material";
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v13-appRouter';
 import {ThemeProvider, createTheme, responsiveFontSizes} from '@mui/material/styles'
 import {Inter} from 'next/font/google'
+import {SnackbarContextProvider} from './_components/snackbar';
 import './globals.css'
 
 import BottomNavigationMenu from './_components/bottomNavigationMenu'
-import { UserProvider } from '@auth0/nextjs-auth0/client';
+import {UserProvider} from '@auth0/nextjs-auth0/client';
 
 const inter = Inter({subsets: ['latin']})
 
@@ -31,7 +32,7 @@ export default function RootLayout({
                 main: "#FADF0A",
                 contrastText: "#707070"
             },
-            white:{
+            white: {
                 main: "#FFFFFF"
             },
             text: {
@@ -78,15 +79,17 @@ export default function RootLayout({
             <title>IdeaShare</title>
         </head>
         <UserProvider>
-        <body className={inter.className}>
-        <AppRouterCacheProvider options={{enableCssLayer: true}}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline/>
-                {children}
-                <BottomNavigationMenu/>
-            </ThemeProvider>
-        </AppRouterCacheProvider>
-        </body>
+            <body className={inter.className}>
+            <AppRouterCacheProvider options={{enableCssLayer: true}}>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline/>
+                    <SnackbarContextProvider>
+                        {children}
+                    </SnackbarContextProvider>
+                    <BottomNavigationMenu/>
+                </ThemeProvider>
+            </AppRouterCacheProvider>
+            </body>
         </UserProvider>
         </html>
     )

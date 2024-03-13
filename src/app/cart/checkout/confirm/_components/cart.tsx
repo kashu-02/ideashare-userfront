@@ -15,6 +15,7 @@ import DetailIcon from '../_icons/detail.svg'
 import CatalogIcon from '../../../../_icons/bottom/searchIcon.svg'
 import TicketIcon from '@/app/_icons/ticket.jpg'
 import {useState} from "react";
+import {useSnackbar} from "@/app/_components/snackbar";
 
 const CheckoutButton = styled(Button)<ButtonProps>(({theme}) =>({
     width: '25vw',
@@ -46,6 +47,7 @@ interface Props{
 }
 export default (props: Props) => {
     const router = useRouter()
+    const {showSnackbar} = useSnackbar()
     const [name, setName ] = useState(props.profile.name)
     const [ address, setAddress] = useState(props.profile.address)
     const [loading, setLoading] = useState(false)
@@ -70,8 +72,10 @@ export default (props: Props) => {
                 }),
             })
             console.log(await res.json())
+            showSnackbar('注文を送信しました！', 'success')
             router.push('/')
         } finally {
+            showSnackbar('注文を送信できませんでした', 'error')
             setLoading(false)
         }
     }
