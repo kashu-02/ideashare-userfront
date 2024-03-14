@@ -6,7 +6,7 @@ import {redirect} from "next/navigation";
 
 
 export default withPageAuthRequired(async function CartPage() {
-    const {accessToken} = await  getAccessToken()
+    const {accessToken} = await getAccessToken()
     const cart = await getCart(accessToken!)
     const profile = await getProfile(accessToken!)
 
@@ -20,29 +20,30 @@ export default withPageAuthRequired(async function CartPage() {
     )
 })
 
-async function getCart(accessToken : string) {
+async function getCart(accessToken: string) {
     const res = await fetch(`${process.env.API_URL}/cart`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${accessToken}`
-        },
+        }, cache: 'no-store'
     })
-    if (!res.ok ) {
+    if (!res.ok) {
         console.error(res.status)
         throw new Error('データの取得に失敗しました')
     }
     return await res.json()
 }
-async function getProfile(accessToken : string) {
+
+async function getProfile(accessToken: string) {
     const res = await fetch(`${process.env.API_URL}/account`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${accessToken}`
-        },
+        }, cache: 'no-store'
     })
-    if (!res.ok ) {
+    if (!res.ok) {
         console.error(res.status)
-        if(res.status === 404) redirect(`/signup`)
+        if (res.status === 404) redirect(`/signup`)
         throw new Error('データの取得に失敗しました')
     }
     return await res.json()
