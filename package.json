@@ -24,8 +24,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.0",
     "react-markdown": "^9.0.1",
-    "react-material-ui-carousel": "^3.4.2",
-    "sharp": "^0.33.2"
+    "react-material-ui-carousel": "^3.4.2"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.9.0",
