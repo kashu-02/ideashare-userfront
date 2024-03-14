@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 import AccountHeader from './_components/accountHeader';
 import AccountBody from './_components/accountBody';
 import AccountBottom from "./_components/accountBottom";
+import { redirect } from "next/navigation";
 import styles from './page.module.css'
 
 import {withPageAuthRequired, getAccessToken} from '@auth0/nextjs-auth0/edge';
@@ -32,6 +33,7 @@ async function getData(accessToken : string) {
     })
     if (!res.ok) {
         console.error(res.status)
+        if(res.status === 404) redirect(`/signup`)
         throw new Error('データの取得に失敗しました')
     }
     return await res.json()

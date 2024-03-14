@@ -2,6 +2,7 @@ import Header from './_components/header'
 import Cart from './_components/cart'
 import styles from './page.module.css'
 import {withPageAuthRequired, getAccessToken} from "@auth0/nextjs-auth0/edge";
+import {redirect} from "next/navigation";
 
 
 export default withPageAuthRequired(async function CartPage() {
@@ -41,6 +42,7 @@ async function getProfile(accessToken : string) {
     })
     if (!res.ok ) {
         console.error(res.status)
+        if(res.status === 404) redirect(`/signup`)
         throw new Error('データの取得に失敗しました')
     }
     return await res.json()
