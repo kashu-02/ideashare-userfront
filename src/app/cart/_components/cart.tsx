@@ -1,11 +1,11 @@
 'use client'
-import { useRouter } from 'next/navigation';
+import {useRouter} from 'next/navigation';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {CardActionArea} from '@mui/material';
 import SvgIcon from "@mui/material/SvgIcon";
 
@@ -13,7 +13,7 @@ import CartItem from './cartItem';
 
 import TicketIcon from '@/app/_icons/ticket.jpg'
 
-const CheckoutButton = styled(Button)<ButtonProps>(({theme}) =>({
+const CheckoutButton = styled(Button)<ButtonProps>(({theme}) => ({
     width: 'auto',
     maxWidth: 200,
     height: 'auto',
@@ -42,7 +42,8 @@ interface CartItem {
         }[]
     }
 }
-interface Props{
+
+interface Props {
     data: {
         totalPrice: number;
         cartItems: CartItem[]
@@ -50,21 +51,22 @@ interface Props{
     profile: {
         ticket: number;
     }
-    updateCart
 }
+
 export default (props: Props) => {
     return (
         <Box
-        display={'flex'}
-        flexDirection={'column'}
-        alignItems={'center'}
-        width={'90vw'}
-        maxWidth={600}
-        border={'1px solid #707070'}
-        borderRadius={4}
-        padding={'1rem'}
+            display={'flex'}
+            flexDirection={'column'}
+            alignItems={'center'}
+            width={'90vw'}
+            maxWidth={600}
+            border={'1px solid #707070'}
+            borderRadius={4}
+            padding={'1rem'}
         >
-            {Boolean(props.data?.totalPrice) && <CartBody data={props.data} profile={props.profile} updateCart={props.updateCart}/>}
+            {Boolean(props.data?.totalPrice) &&
+                <CartBody data={props.data} profile={props.profile}/>}
             {!props.data?.totalPrice && <Typography>カート内に商品がありません</Typography>}
         </Box>
     )
@@ -74,7 +76,7 @@ const CartBody = (props: Props) => (
     <>
         {props.data.cartItems.map((item, index) =>
             (
-                <CartItem data={item} keys={index} updateCart={props.updateCart}/>
+                <CartItem data={item} key={index}/>
             )
         )}
         <Box
@@ -143,6 +145,7 @@ const CartBody = (props: Props) => (
             sx={{
                 marginTop: '2rem'
             }}
+            disabled={props.profile?.ticket * 1000 < props.data.totalPrice}
         >
             発送手続き
         </CheckoutButton>

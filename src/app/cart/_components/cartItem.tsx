@@ -44,26 +44,51 @@ interface CartItem {
 }
 interface Props{
     data: CartItem;
-    updateCart;
 }
+
+const updateCart = (d: {
+    catalogProductId: string;
+    cartProductId: string;
+    quantity: number
+}) => {
+    if (!d) return
+    fetch(`${window.location.origin}/api/cart`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            catalogProductId: d.catalogProductId,
+            cartProductId: d.cartProductId,
+            quantity: d.quantity,
+        }),
+    })
+        .then(response => response.json())
+        .then((data) => {
+            console.log(data);
+        });
+}
+
 export default (props: Props) => {
     const [quantity, setQuantity] = React.useState(props.data.quantity);
-
+    const router = useRouter()
     const handleQuantityChange = (event: SelectChangeEvent) => {
         setQuantity(Number(event.target.value));
-        props.updateCart({
+        updateCart({
             cartProductId: props.data.id,
             catalogProductId: props.data.catalogProductId,
-            quantity: event.target.value,
+            quantity: Number(event.target.value),
         })
+        router.refresh();
     };
 
     const handleDelete = () =>{
-        props.updateCart({
+        updateCart({
             cartProductId: props.data.id,
             catalogProductId: props.data.catalogProductId,
             quantity: 0,
         })
+        router.refresh();
     }
 
     return (
