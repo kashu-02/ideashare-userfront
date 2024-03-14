@@ -1,17 +1,10 @@
 /** @type {import('next').NextConfig} */
 
-const withPWA = require('next-pwa')({
-    dest: 'public',
-    register: true,
-    skipWaiting: true,
-    disable: process.env.NODE_ENV === "development",
-})
 
-
-const nextConfig = withPWA({
+const nextConfig = {
     experimental: {
-                esmExternals: 'loose',
-        },
+        esmExternals: 'loose',
+    },
     swcMinify: true,
     eslint: {
         // Warning: This allows production builds to successfully complete even if
@@ -43,7 +36,7 @@ const nextConfig = withPWA({
             {
                 test: /\.svg$/i,
                 issuer: fileLoaderRule.issuer,
-                resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
+                resourceQuery: {not: [...fileLoaderRule.resourceQuery.not, /url/]}, // exclude if *.svg?url
                 use: ['@svgr/webpack'],
             },
         )
@@ -75,6 +68,6 @@ const nextConfig = withPWA({
             },
         ],
     },
-})
+}
 
 module.exports = nextConfig
