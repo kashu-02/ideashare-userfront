@@ -7,7 +7,7 @@ import styles from './page.module.css'
 
 import {withPageAuthRequired, getAccessToken} from '@auth0/nextjs-auth0/edge';
 
-export default withPageAuthRequired(async function CheckoutPage() {
+export default withPageAuthRequired(async function AccountPage() {
     const {accessToken} = await getAccessToken()
     const user = await getData(accessToken!)
 

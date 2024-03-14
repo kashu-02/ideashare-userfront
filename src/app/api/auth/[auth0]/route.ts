@@ -23,7 +23,7 @@ export const runtime = 'edge';
 export const GET = handleAuth({
     login: handleLogin({
         authorizationParams: {
-            connection: 'line',
+            // connection: 'line',
             audience: 'https://api.idea-fanding.com',
         }
     }),
