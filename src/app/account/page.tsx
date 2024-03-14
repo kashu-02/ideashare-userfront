@@ -29,7 +29,6 @@ async function getData(accessToken : string) {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         },
-        cache: 'no-cache',
     })
     if (!res.ok) {
         console.error(res.status)
