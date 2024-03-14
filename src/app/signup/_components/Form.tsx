@@ -1,6 +1,6 @@
 "use client"
 import {useRef, useState} from 'react';
-import { useRouter } from 'next/navigation'
+import {useRouter} from 'next/navigation'
 import {useUser} from '@auth0/nextjs-auth0/client';
 import dayjs from 'dayjs';
 import Avatar from '@mui/material/Avatar';
@@ -16,14 +16,20 @@ import Select, {SelectChangeEvent} from '@mui/material/Select';
 import {DateField} from '@mui/x-date-pickers/DateField';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import Dialog from '@mui/material/Dialog';
+import Container from '@mui/material/Container';
+
+import Header from './header'
 
 export default () => {
     const router = useRouter();
     const {user, error, isLoading} = useUser();
-    if(error) console.log(error)
+    const [open, setOpen] = useState(true)
+    if (error) console.log(error)
     const [avatar, setAvatar] = useState(user?.picture)
     const [loading, setLoading] = useState(false)
     const nicknameRef = useRef<HTMLInputElement>()
+    const nameRef = useRef<HTMLInputElement>()
     const [gender, setGender] = useState(0)
     const birthdayRef = useRef<HTMLInputElement>()
     const emailRef = useRef<HTMLInputElement>()
@@ -32,10 +38,11 @@ export default () => {
     const buttonOnClick = async (): Promise<void> => {
         setLoading(true)
         const nickname = nicknameRef.current?.value
+        const name = nameRef.current?.value
         const birthday = birthdayRef.current?.value
         const email = emailRef.current?.value
         const address = addressRef.current?.value
-        console.log(nickname, birthday, gender, email, address)
+        console.log(nickname, name, birthday, gender, email, address)
 
         try {
             const res = await fetch(`${window.location.origin}/api/profile`, {
@@ -47,15 +54,19 @@ export default () => {
                     email,
                     address,
                     birthday,
+                    name,
                     nickname,
                     gender,
                     avatar,
                 }),
             })
             console.log(await res.json())
-            if (res.status === 200) router.replace('/')
+            if (res.status === 200) {
+                setOpen(false)
+                router.replace('/')
+            }
         } finally {
-          setLoading(false)
+            setLoading(false)
         }
     }
 
@@ -82,130 +93,157 @@ export default () => {
 
     return (
         <>
-            <Box
-                display={'flex'}
-                flexDirection={'column'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                width={'80vw'}
-                maxWidth={'500px'}
+            <Dialog
+                fullScreen
+                open={open}
             >
-                {user && <Avatar
-                    alt=""
-                    src={avatar}
-                    sx={{
-                        width: '5rem',
-                        height: '5rem',
-                        marginBottom: '2rem',
-                    }}
-                />}
-
-                <Grid container rowSpacing={5}>
-                    <Grid xs={6} alignItems="center">
-                        <Typography
+                <Header />
+                <Container maxWidth={'sm'}>
+                    <Box
+                        display={'flex'}
+                        flexDirection={'column'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        width={'100%'}
+                    >
+                        {user && <Avatar
+                            alt=""
+                            src={avatar}
                             sx={{
-                                marginRight: '3rem'
+                                width: '5rem',
+                                height: '5rem',
+                                marginBottom: '2rem',
+                            }}
+                        />}
+
+                        <Grid container rowSpacing={5}>
+                            <Grid xs={6} alignItems="center">
+                                <Typography
+                                    sx={{
+                                        marginRight: '3rem'
+                                    }}
+                                >
+                                    ニックネーム
+                                </Typography>
+                            </Grid>
+                            <Grid xs={6} alignItems="center">
+                                <TextField
+                                    label=""
+                                    variant="standard"
+                                    inputRef={nicknameRef}
+                                    defaultValue={user?.nickname || ""}
+                                    required
+                                />
+                            </Grid>
+
+                            <Grid xs={6} alignItems="center">
+                                <Typography
+                                    sx={{
+                                        marginRight: '3rem'
+                                    }}
+                                >
+                                    名前
+                                </Typography>
+                            </Grid>
+                            <Grid xs={6} alignItems="center">
+                                <TextField
+                                    label=""
+                                    variant="standard"
+                                    inputRef={nameRef}
+                                    required
+                                />
+                            </Grid>
+
+                            <Grid xs={6} alignItems="center">
+                                <Typography
+                                    sx={{
+                                        marginRight: '3rem'
+                                    }}
+                                >
+                                    性別
+                                </Typography>
+                            </Grid>
+                            <Grid xs={6} alignItems="center">
+                                <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
+                                    <Select
+                                        value={String(gender)}
+                                        onChange={handleSelectChange}
+                                    >
+                                        <MenuItem value={"0"}>無回答</MenuItem>
+                                        <MenuItem value={"1"}>男性</MenuItem>
+                                        <MenuItem value={"2"}>女性</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+
+                            <Grid xs={6} alignItems="center">
+                                <Typography
+                                    sx={{
+                                        marginRight: '3rem'
+                                    }}
+                                >
+                                    生年月日
+                                </Typography>
+                            </Grid>
+                            <Grid xs={6} alignItems="center">
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <DateField
+                                        defaultValue={dayjs('2000-01-01')}
+                                        format="YYYY-MM-DD"
+                                        variant={'standard'}
+                                        inputRef={birthdayRef}
+                                    />
+                                </LocalizationProvider>
+                            </Grid>
+
+                            <Grid xs={6} alignItems="center">
+                                <Typography
+                                    sx={{
+                                        marginRight: '3rem'
+                                    }}
+                                >
+                                    メールアドレス
+                                </Typography>
+                            </Grid>
+                            <Grid xs={6} alignItems="center">
+                                <TextField
+                                    label=""
+                                    variant="standard"
+                                    inputRef={emailRef}
+                                    defaultValue={user?.email || ""}
+                                />
+                            </Grid>
+
+                            <Grid xs={6} alignItems="center">
+                                <Typography
+                                    sx={{
+                                        marginRight: '3rem'
+                                    }}
+                                >
+                                    住所
+                                </Typography>
+                            </Grid>
+                            <Grid xs={6} alignItems="center">
+                                <TextField
+                                    label=""
+                                    multiline
+                                    variant="standard"
+                                    inputRef={addressRef}
+                                />
+                            </Grid>
+                        </Grid>
+                        <RegisterButton
+                            onClick={buttonOnClick}
+                            disabled={loading || isLoading}
+                            sx={{
+                                marginTop: '2rem'
                             }}
                         >
-                            ニックネーム
-                        </Typography>
-                    </Grid>
-                    <Grid xs={6} alignItems="center">
-                        <TextField
-                            label=""
-                            variant="standard"
-                            inputRef={nicknameRef}
-                            required
-                        />
-                    </Grid>
-
-                    <Grid xs={6} alignItems="center">
-                        <Typography
-                            sx={{
-                                marginRight: '3rem'
-                            }}
-                        >
-                            性別
-                        </Typography>
-                    </Grid>
-                    <Grid xs={6} alignItems="center">
-                        <FormControl variant="standard" sx={{m: 1, minWidth: 120}}>
-                            <Select
-                                value={String(gender)}
-                                onChange={handleSelectChange}
-                            >
-                                <MenuItem value={"0"}>無回答</MenuItem>
-                                <MenuItem value={"1"}>男性</MenuItem>
-                                <MenuItem value={"2"}>女性</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid xs={6} alignItems="center">
-                        <Typography
-                            sx={{
-                                marginRight: '3rem'
-                            }}
-                        >
-                            生年月日
-                        </Typography>
-                    </Grid>
-                    <Grid xs={6} alignItems="center">
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DateField
-                                defaultValue={dayjs('2000-01-01')}
-                                format="YYYY-MM-DD"
-                                variant={'standard'}
-                                inputRef={birthdayRef}
-                            />
-                        </LocalizationProvider>
-                    </Grid>
-
-                    <Grid xs={6} alignItems="center">
-                        <Typography
-                            sx={{
-                                marginRight: '3rem'
-                            }}
-                        >
-                            メールアドレス
-                        </Typography>
-                    </Grid>
-                    <Grid xs={6} alignItems="center">
-                        <TextField
-                            label=""
-                            variant="standard"
-                            inputRef={emailRef}
-                        />
-                    </Grid>
-
-                    <Grid xs={6} alignItems="center">
-                        <Typography
-                            sx={{
-                                marginRight: '3rem'
-                            }}
-                        >
-                            住所
-                        </Typography>
-                    </Grid>
-                    <Grid xs={6} alignItems="center">
-                        <TextField
-                            label=""
-                            multiline
-                            variant="standard"
-                            inputRef={addressRef}
-                        />
-                    </Grid>
-                </Grid>
-                <RegisterButton
-                    onClick={buttonOnClick}
-                    disabled={loading || isLoading}
-                    sx={{
-                        marginTop: '2rem'
-                    }}
-                >
-                    {loading ? "Loading..." : "登録"}
-                </RegisterButton>
-            </Box>
+                            {loading ? "Loading..." : "登録"}
+                        </RegisterButton>
+                    </Box>
+                </Container>
+            </Dialog>
         </>
     )
 }
