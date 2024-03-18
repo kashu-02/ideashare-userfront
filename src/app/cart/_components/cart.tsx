@@ -119,7 +119,7 @@ const CartBody = (props: Props) => (
                         height={73}
                         sizes="3rem"
                         style={{
-                            width: '100%',
+                            width: '3rem',
                             height: 'auto',
                             border: '1px solid #707070'
                         }}
