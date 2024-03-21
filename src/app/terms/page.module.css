@@ -1,0 +1,11 @@
+.main{
+}
+
+.body {
+    position: absolute;
+    width: 100vw;
+    margin: 0 auto 1rem auto;
+    padding-bottom: 10vh;
+    left: 50%;
+    transform: translate(-50%);
+}

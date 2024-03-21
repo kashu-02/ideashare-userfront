@@ -7,6 +7,7 @@ export default () => {
         <>
             <Link
                 href={"/api/auth/logout"}
+                prefetch={false}
                 style={{
                     position: 'absolute',
                     bottom: 90,
