@@ -28,7 +28,7 @@ export default (props: Props) => {
             autoPlay={true}
         >
             {
-                props.images.map( (item, i) => <Item key={i} url={item.url} /> )
+                props.images.map( (item, i) => <Item key={i} url={item} /> )
             }
         </Carousel>
     )
