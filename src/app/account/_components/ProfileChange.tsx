@@ -19,7 +19,6 @@ import {DateField} from '@mui/x-date-pickers/DateField';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {useSnackbar} from '@/app/_components/snackbar'
-import { cookies } from 'next/headers'
 
 interface Props {
     open: boolean;
@@ -31,7 +30,6 @@ export const ProfileChangeDialog = (props: Props) => {
     const user = props.user
     const router = useRouter()
     const {showSnackbar} = useSnackbar()
-    const cookieStore = cookies()
 
     const [avatar, setAvatar] = useState(user?.avatar)
     const [loading, setLoading] = useState(false)
@@ -71,8 +69,8 @@ export const ProfileChangeDialog = (props: Props) => {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Cookie': cookieStore.toString(),
                 },
+                credentials: 'include',
                 body: JSON.stringify({
                     email,
                     address,
@@ -194,6 +192,7 @@ export const ProfileChangeDialog = (props: Props) => {
                                     label=""
                                     variant="standard"
                                     inputRef={nameRef}
+                                    defaultValue={user.name}
                                     required
                                 />
                             </Grid>
