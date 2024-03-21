@@ -71,6 +71,7 @@ export const ProfileChangeDialog = (props: Props) => {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
+                mode: 'same-origin',
                 body: JSON.stringify({
                     email,
                     address,
