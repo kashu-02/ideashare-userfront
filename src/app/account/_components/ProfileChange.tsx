@@ -31,7 +31,6 @@ export const ProfileChangeDialog = (props: Props) => {
     const router = useRouter()
     const {showSnackbar} = useSnackbar()
 
-
     const [avatar, setAvatar] = useState(user?.avatar)
     const [loading, setLoading] = useState(false)
     const nicknameRef = useRef<HTMLInputElement>()
@@ -71,6 +70,7 @@ export const ProfileChangeDialog = (props: Props) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify({
                     email,
                     address,
