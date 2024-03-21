@@ -6,6 +6,7 @@ import BottomNavigation from '@mui/material/BottomNavigation'
 import BottomNavigationAction from '@mui/material/BottomNavigationAction'
 import SvgIcon from "@mui/material/SvgIcon";
 import NextLink from "next/link";
+import {useRouter} from 'next/navigation';
 
 import HomeIcon from '../_icons/bottom/homeIcon.svg'
 import SearchIcon from '../_icons/bottom/searchIcon.svg'
@@ -15,9 +16,14 @@ import AccountIcon from '../_icons/bottom/accountIcon.svg'
 
 export default () => {
     const pathName = usePathname();
+    const router = useRouter();
     const path = `/${pathName.split("/")[1]}`
     const [value, setValue] = React.useState(path);
 
+    const cartClick = () =>{
+        router.push('/cart')
+        router.refresh();
+    }
     return (
         <Box sx={{
             position: "fixed",
@@ -62,7 +68,7 @@ export default () => {
                     value="/cart"
                     LinkComponent={NextLink}
                     label="カート"
-                    href="/cart"
+                    onClick={cartClick}
                     icon={
                     <SvgIcon>
                         <CartIcon />

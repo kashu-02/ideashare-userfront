@@ -114,7 +114,7 @@ export default (props: Props) => {
                     flexDirection={"column"}
                     justifyContent={'center'}
                     alignItems={'start'}
-                    marginLeft={"1rem"}
+                    marginLeft={"2rem"}
                     width={'100%'}
                 >
                     <Typography

@@ -18,7 +18,7 @@ import {useState} from "react";
 import {useSnackbar} from "@/app/_components/snackbar";
 
 const CheckoutButton = styled(Button)<ButtonProps>(({theme}) =>({
-    width: '25vw',
+    width: 'auto',
     maxWidth: 200,
     height: 'auto',
     color: '#FFFFFF',
@@ -74,8 +74,10 @@ export default (props: Props) => {
             console.log(await res.json())
             showSnackbar('注文を送信しました！', 'success')
             router.push('/')
-        } finally {
+        } catch (e) {
+            console.error(e)
             showSnackbar('注文を送信できませんでした', 'error')
+        } finally {
             setLoading(false)
         }
     }
@@ -86,7 +88,7 @@ export default (props: Props) => {
         display={'flex'}
         flexDirection={'column'}
         alignItems={'center'}
-        width={'80vw'}
+        width={'95vw'}
         maxWidth={600}
         // border={'1px solid #707070'}
         // borderRadius={4}

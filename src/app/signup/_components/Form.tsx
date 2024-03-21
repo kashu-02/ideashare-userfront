@@ -20,9 +20,11 @@ import Dialog from '@mui/material/Dialog';
 import Container from '@mui/material/Container';
 
 import Header from './header'
+import {useSnackbar} from '@/app/_components/snackbar'
 
 export default () => {
     const router = useRouter();
+    const {showSnackbar} = useSnackbar()
     const {user, error, isLoading} = useUser();
     const [open, setOpen] = useState(true)
     if (error) console.log(error)
@@ -43,7 +45,22 @@ export default () => {
         const email = emailRef.current?.value
         const address = addressRef.current?.value
         console.log(nickname, name, birthday, gender, email, address)
-
+        if(!nickname){
+            showSnackbar('ニックネームを入力してください', 'error')
+            return
+        }
+        if(!name){
+            showSnackbar('名前を入力してください', 'error')
+            return
+        }
+        if(!email){
+            showSnackbar('メールアドレスを入力してください', 'error')
+            return
+        }
+        if(!address){
+            showSnackbar('住所を入力してください', 'error')
+            return
+        }
         try {
             const res = await fetch(`${window.location.origin}/api/profile`, {
                 method: 'POST',
@@ -62,6 +79,7 @@ export default () => {
             })
             console.log(await res.json())
             if (res.status === 200) {
+                showSnackbar('ユーザー登録が完了しました！', 'success')
                 setOpen(false)
                 router.replace('/')
             }

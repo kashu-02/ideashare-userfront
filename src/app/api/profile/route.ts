@@ -34,6 +34,7 @@ export const POST = withApiAuthRequired(async function profilePOST(req) {
             birthday: reqJSON.birthday,
             address: reqJSON.address,
             avatar: reqJSON.avatar,
+            name: reqJSON.name,
         }),
     })
     const resJSON = await response.json()
@@ -57,6 +58,7 @@ export const PUT = withApiAuthRequired(async function profilePUT(req) {
             birthday: reqJSON.birthday,
             address: reqJSON.address,
             avatar: reqJSON.avatar,
+            name: reqJSON.name,
         }),
     })
     const resJSON = await response.json()

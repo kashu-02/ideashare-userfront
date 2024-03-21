@@ -28,10 +28,12 @@ interface Props {
 
 export const ProfileChangeDialog = (props: Props) => {
     const user = props.user
+    const router = useRouter()
     const {showSnackbar} = useSnackbar()
     const [avatar, setAvatar] = useState(user?.avatar)
     const [loading, setLoading] = useState(false)
     const nicknameRef = useRef<HTMLInputElement>()
+    const nameRef = useRef<HTMLInputElement>()
     const [gender, setGender] = useState(user?.sex)
     const birthdayRef = useRef<HTMLInputElement>()
     const emailRef = useRef<HTMLInputElement>()
@@ -41,10 +43,26 @@ export const ProfileChangeDialog = (props: Props) => {
         setLoading(true)
         const nickname = nicknameRef.current?.value
         const birthday = birthdayRef.current?.value
+        const name = nameRef.current?.value
         const email = emailRef.current?.value
         const address = addressRef.current?.value
-        console.log(nickname, birthday, gender, email, address)
-
+        console.log(nickname, birthday, gender, name, email, address)
+        if(!nickname){
+            showSnackbar('ニックネームを入力してください', 'error')
+            return
+        }
+        if(!name){
+            showSnackbar('名前を入力してください', 'error')
+            return
+        }
+        if(!email){
+            showSnackbar('メールアドレスを入力してください', 'error')
+            return
+        }
+        if(!address){
+            showSnackbar('住所を入力してください', 'error')
+            return
+        }
         try {
             const res = await fetch(`${window.location.origin}/api/profile`, {
                 method: 'PUT',
@@ -55,6 +73,7 @@ export const ProfileChangeDialog = (props: Props) => {
                     email,
                     address,
                     birthday,
+                    name,
                     nickname,
                     gender,
                     avatar,
@@ -71,6 +90,7 @@ export const ProfileChangeDialog = (props: Props) => {
         }
         finally {
             setLoading(false)
+            router.refresh()
         }
     }
 
@@ -152,6 +172,24 @@ export const ProfileChangeDialog = (props: Props) => {
                                     variant="standard"
                                     inputRef={nicknameRef}
                                     defaultValue={user.nickname}
+                                    required
+                                />
+                            </Grid>
+
+                            <Grid xs={6} alignItems="center">
+                                <Typography
+                                    sx={{
+                                        marginRight: '3rem'
+                                    }}
+                                >
+                                    名前
+                                </Typography>
+                            </Grid>
+                            <Grid xs={6} alignItems="center">
+                                <TextField
+                                    label=""
+                                    variant="standard"
+                                    inputRef={nameRef}
                                     required
                                 />
                             </Grid>

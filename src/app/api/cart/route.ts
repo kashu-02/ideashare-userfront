@@ -3,19 +3,19 @@ import {NextResponse} from "next/server";
 
 export const runtime = 'edge';
 export const dynamic = 'force-dynamic';
-export const GET = withApiAuthRequired(async function cartGET(req) {
-    const res = new NextResponse();
-    const { accessToken } = await getAccessToken(req, res);
-    const response = await fetch(`${process.env.API_URL}/cart`,{
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
-        },
-    })
-    const resJSON = await response.json()
-    return NextResponse.json(resJSON, res);
-});
+// export const GET = withApiAuthRequired(async function cartGET(req) {
+//     const res = new NextResponse();
+//     const { accessToken } = await getAccessToken(req, res);
+//     const response = await fetch(`${process.env.API_URL}/cart`,{
+//         method: 'GET',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': `Bearer ${accessToken}`
+//         },
+//     })
+//     const resJSON = await response.json()
+//     return NextResponse.json(resJSON, res);
+// });
 
 export const POST = withApiAuthRequired(async function cartPOST(req) {
     const reqJSON = await req.json()
