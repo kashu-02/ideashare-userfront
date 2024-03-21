@@ -11,6 +11,7 @@ import Button, {ButtonProps} from "@mui/material/Button";
 import {useRef, createRef, RefObject, useState} from "react";
 import {useUser} from '@auth0/nextjs-auth0/client';
 import {Controller, SubmitHandler, useForm} from 'react-hook-form'
+import {useSnackbar} from '@/app/_components/snackbar'
 
 interface Props {
     data: {
@@ -25,6 +26,7 @@ interface Props {
 
 export default (props: Props) => {
     const {user, error, isLoading: isAuth0Loading} = useUser()
+    const {showSnackbar} = useSnackbar()
     const [submitLoading, setSubmitLoading] = useState(false)
     const {control, handleSubmit, formState: { errors },} = useForm({})
     const answerRefs = useRef<RefObject<HTMLInputElement>[]>([])
@@ -62,8 +64,12 @@ export default (props: Props) => {
         }).then((resultRaw) => {
             resultRaw.json().then((result) => {
                 console.log(result)
+                showSnackbar('アイディアを送信しました！','success')
             })
             setSubmitLoading(false)
+        }).catch((e) =>{
+            console.error(e)
+            showSnackbar('アイディアの送信に失敗しました','error')
         })
 
 

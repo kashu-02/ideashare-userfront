@@ -30,6 +30,8 @@ export const ProfileChangeDialog = (props: Props) => {
     const user = props.user
     const router = useRouter()
     const {showSnackbar} = useSnackbar()
+
+
     const [avatar, setAvatar] = useState(user?.avatar)
     const [loading, setLoading] = useState(false)
     const nicknameRef = useRef<HTMLInputElement>()
