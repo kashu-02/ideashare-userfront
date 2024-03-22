@@ -6,7 +6,11 @@ import NotifyItem from './notifyItem';
 
 
 interface Props{
-    notifications: object[]
+    notifications: {
+        title: string;
+        content: string;
+        createdAt: string;
+    }[]
 }
 export default (props:Props) => {
     const notifications = props.notifications

@@ -15,6 +15,7 @@ import IdeashareIcon from '../_icons/ideashare-icon.webp';
 interface Props{
     notification: {
         title: string;
+        content: string;
         createdAt: string;
     }
 }
@@ -25,7 +26,6 @@ export default (props: Props) => {
                 boxShadow: 'none'
             }}
         >
-            <NextLink href={'/'} legacyBehavior>
                 <CardActionArea>
                     <CardContent
                         sx={{
@@ -70,7 +70,6 @@ export default (props: Props) => {
                         </Box>
                     </CardContent>
                 </CardActionArea>
-            </NextLink>
         </Card>
     )
 }
