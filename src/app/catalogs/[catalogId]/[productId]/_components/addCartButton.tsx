@@ -9,8 +9,8 @@ import {useSnackbar} from '@/app/_components/snackbar';
 
 
 const AddToCartButton = styled(Button)<ButtonProps>(({theme}) =>({
-    width: '9rem',
-    maxWidth: 200,
+    width: 'auto',
+    maxWidth: 250,
     height: 'auto',
     color: '#FFFFFF',
     backgroundColor: '#00BCD7',
@@ -26,8 +26,8 @@ const AddToCartButton = styled(Button)<ButtonProps>(({theme}) =>({
 }));
 
 const BuyNowButton = styled(Button)<ButtonProps>(({theme}) =>({
-    width: '9rem',
-    maxWidth: 200,
+    width: 'auto',
+    maxWidth: 250,
     height: 'auto',
     color: '#00BCD7',
     backgroundColor: '#FFFFFF',
@@ -54,7 +54,10 @@ export default (props: Props) => {
 
     const addToCart = async() =>{
         setLoading(true)
-        if(!user) router.push('/api/auth/login')
+        if(!user) {
+            router.push('/api/auth/login')
+            return
+        }
 
         try {
             const res = await fetch(`${window.location.origin}/api/cart`, {
@@ -77,7 +80,10 @@ export default (props: Props) => {
     }
     const buyNow = async() =>{
         setLoading(true)
-        if(!user) router.push('/api/auth/login')
+        if(!user) {
+            router.push('/api/auth/login')
+            return
+        }
 
         try {
             const res = await fetch(`${window.location.origin}/api/cart`, {
@@ -113,9 +119,9 @@ export default (props: Props) => {
                     marginX: '0.7rem',
                 }}
             >
-                かごに追加
+                {user ? "かごに追加" : "ログインが必要です"}
             </AddToCartButton>
-            <BuyNowButton
+            {user && <BuyNowButton
                 disabled={loading}
                 onClick={buyNow}
                 sx={{
@@ -123,7 +129,7 @@ export default (props: Props) => {
                 }}
             >
                 今すぐ買う
-            </BuyNowButton>
+            </BuyNowButton>}
         </Box>
     )
 }
