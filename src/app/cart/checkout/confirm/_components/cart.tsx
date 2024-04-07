@@ -1,15 +1,16 @@
 'use client'
-import { useRouter } from 'next/navigation';
+import {useRouter} from 'next/navigation';
 import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { styled } from '@mui/material/styles';
+import {styled} from '@mui/material/styles';
 import {CardActionArea} from '@mui/material';
 import SvgIcon from "@mui/material/SvgIcon";
 
 import CartItem from './cartItem';
+import ChangeAddressDialog from "./ChangeAddressDialog";
 
 import DetailIcon from '../_icons/detail.svg'
 import CatalogIcon from '../../../../_icons/bottom/searchIcon.svg'
@@ -17,7 +18,7 @@ import TicketIcon from '@/app/_icons/ticket.jpg'
 import {useState} from "react";
 import {useSnackbar} from "@/app/_components/snackbar";
 
-const CheckoutButton = styled(Button)<ButtonProps>(({theme}) =>({
+const CheckoutButton = styled(Button)<ButtonProps>(({theme}) => ({
     width: 'auto',
     maxWidth: 200,
     height: 'auto',
@@ -34,7 +35,7 @@ const CheckoutButton = styled(Button)<ButtonProps>(({theme}) =>({
     },
 }));
 
-interface Props{
+interface Props {
     data: {
         totalPrice: number;
         cartItems: CartItem[]
@@ -45,15 +46,17 @@ interface Props{
         name: string;
     }
 }
+
 export default (props: Props) => {
     const router = useRouter()
     const {showSnackbar} = useSnackbar()
-    const [name, setName ] = useState(props.profile.name)
-    const [ address, setAddress] = useState(props.profile.address)
+    const [name, setName] = useState(props.profile.name)
+    const [address, setAddress] = useState(props.profile.address)
     const [loading, setLoading] = useState(false)
-    const placeOrder = async() =>{
+    const [addressDialogOpen, setAddressDialogOpen] = useState(false)
+    const placeOrder = async () => {
         setLoading(true)
-        const bodyItems = props.data.cartItems.map((item, index)=>{
+        const bodyItems = props.data.cartItems.map((item, index) => {
             return {
                 catalogProductId: item.catalogProductId,
                 quantity: item.quantity
@@ -85,14 +88,14 @@ export default (props: Props) => {
 
     return (
         <Box
-        display={'flex'}
-        flexDirection={'column'}
-        alignItems={'center'}
-        width={'95vw'}
-        maxWidth={600}
-        // border={'1px solid #707070'}
-        // borderRadius={4}
-        padding={'2rem'}
+            display={'flex'}
+            flexDirection={'column'}
+            alignItems={'center'}
+            width={'95vw'}
+            maxWidth={600}
+            // border={'1px solid #707070'}
+            // borderRadius={4}
+            padding={'2rem'}
         >
             <Typography
                 variant={'h5'}
@@ -114,12 +117,12 @@ export default (props: Props) => {
                     display={'flex'}
                     justifyContent={'space-between'}
                     alignItems={'center'}
-                        >
+                >
                     <Typography
-                    sx={{
-                        whiteSpace: 'nowrap',
-                        marginRight: '1rem',
-                    }}
+                        sx={{
+                            whiteSpace: 'nowrap',
+                            marginRight: '1rem',
+                        }}
                     >
                         お届け先
                     </Typography>
@@ -134,34 +137,52 @@ export default (props: Props) => {
                     >
                         {`${name}　${address}`}
                     </Typography>
-                    <Typography
-                        justifySelf={'end'}
-                        color={'secondary.main'}
-                        sx={{
-                            whiteSpace: 'nowrap',
-                            marginLeft: '0.5rem',
-                        }}
+                    <Button
+                        onClick={() => setAddressDialogOpen(true)}
                     >
-                        変更
-                    </Typography>
+                        <Typography
+                            justifySelf={'end'}
+                            color={'secondary.main'}
+                            sx={{
+                                whiteSpace: 'nowrap',
+                                marginLeft: '0.5rem',
+                            }}
+
+                        >
+                            変更
+                        </Typography>
+                    </Button>
+
+                    <ChangeAddressDialog
+                        data={{
+                            name: name,
+                            address: address
+                        }}
+                        setData={{
+                            setName: setName,
+                            setAddress: setAddress
+                        }}
+                        open={addressDialogOpen}
+                        handleClose={() => setAddressDialogOpen(false)}
+                    />
                 </Box>
                 {props.data.cartItems.map((item, index) =>
                     (
-                        <CartItem data={item} keys={index} />
+                        <CartItem data={item} key={index}/>
                     )
                 )}
                 <Divider/>
                 <Box
-                display={'flex'}
-                justifyContent={'space-between'}
-                alignItems={'center'}
+                    display={'flex'}
+                    justifyContent={'space-between'}
+                    alignItems={'center'}
                 >
                     <Typography>
                         消費チケット
                     </Typography>
                     <Typography
-                    variant={"h6"}
-                    color={'primary.main'}
+                        variant={"h6"}
+                        color={'primary.main'}
                     >
                         {`${props.data.totalPrice}円`}
                     </Typography>
